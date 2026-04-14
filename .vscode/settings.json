@@ -1,5 +1,8 @@
 {
   "[typescript]": {
     "js/ts.preferences.importModuleSpecifier": "shortest"
+  },
+  "github.copilot.enable": {
+    "*": false
   }
 }
