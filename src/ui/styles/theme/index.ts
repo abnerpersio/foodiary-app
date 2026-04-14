@@ -40,6 +40,7 @@ const colors = {
     800: "#09090b",
     900: "#000000",
   },
+  "black/10": "rgba(0, 0, 0, .1)",
 } as const;
 
 const fontFamily = {

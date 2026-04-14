@@ -1,11 +1,11 @@
 import Svg, { Path } from "react-native-svg";
 
-interface ILogoProps {
+type LogoProps = {
   width?: number;
   height?: number;
-}
+};
 
-export function Logo({ width = 100, height = 31 }: ILogoProps) {
+export function Logo({ width = 100, height = 31 }: LogoProps) {
   return (
     <Svg width={width} height={height} fill="none" viewBox="0 0 100 31">
       <Path
