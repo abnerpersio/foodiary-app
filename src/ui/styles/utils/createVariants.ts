@@ -16,11 +16,11 @@ type CreateVariantsParams<TVariants extends Variants> = {
   variants: TVariants;
 };
 
-export const createVariants = <TVariants extends Variants>({
+export function createVariants<TVariants extends Variants>({
   base = {},
   variants,
   defaultVariants,
-}: CreateVariantsParams<TVariants>) => {
+}: CreateVariantsParams<TVariants>) {
   return (selectedVariants?: {
     [K in keyof TVariants]?: keyof TVariants[K];
   }) => {
@@ -37,7 +37,7 @@ export const createVariants = <TVariants extends Variants>({
 
     return styles;
   };
-};
+}
 
 export type VariantProps<T extends ReturnType<typeof createVariants>> =
   NonNullable<Parameters<T>[0]>;

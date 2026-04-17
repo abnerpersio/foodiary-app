@@ -1,11 +1,15 @@
+import "react-native-reanimated";
+
 import {
   HostGrotesk_400Regular,
   HostGrotesk_500Medium,
   HostGrotesk_600SemiBold,
 } from "@expo-google-fonts/host-grotesk";
 import { useFonts } from "expo-font";
+
+import { Navigation } from "@/app/navigation";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Greetings } from "./screens/Greetings";
 
 export function App() {
   const [isFontsLoaded] = useFonts([
@@ -19,8 +23,10 @@ export function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <Greetings />
-    </SafeAreaProvider>
+    <GestureHandlerRootView>
+      <SafeAreaProvider>
+        <Navigation />
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
