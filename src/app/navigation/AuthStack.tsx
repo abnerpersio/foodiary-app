@@ -7,7 +7,7 @@ import {
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
 
-type AuthStackParamList = {
+export type AuthStackParamList = {
   Greetings: undefined;
   Onboarding: undefined;
 };
@@ -25,11 +25,7 @@ const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 export function AuthStack() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Greetings" component={Greetings} />
       <Stack.Screen name="Onboarding" component={Onboarding} />
     </Stack.Navigator>

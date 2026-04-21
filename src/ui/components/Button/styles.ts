@@ -27,13 +27,19 @@ export const buttonStyles = createVariants({
       secondary: {
         backgroundColor: theme.colors.gray[300],
       },
+      ghost: {
+        backgroundColor: "transparent",
+      },
     },
     size: {
       default: {
         paddingHorizontal: 24,
         paddingVertical: 14,
       },
-      icon: {},
+      icon: {
+        width: 48,
+        height: 48,
+      },
     },
     disabled: {
       true: {

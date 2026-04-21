@@ -57,49 +57,6 @@ export function SignInBottomSheet({ ref }: SignInBottomSheetProps) {
               />
             </FormGroup>
 
-            {/* <Controller
-              control={form.control}
-              name="email"
-              render={({ field, fieldState }) => (
-                <FormGroup label="E-mail" error={fieldState.error?.message}>
-                  <Input
-                    InputComponent={BottomSheetTextInput}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    autoComplete="email"
-                    returnKeyType="next"
-                    onSubmitEditing={() => passwordInputRef.current?.focus()}
-                    value={field.value}
-                    onChangeText={field.onChange}
-                    disabled={form.formState.isSubmitting}
-                  />
-                </FormGroup>
-              )}
-            />
-
-            <Controller
-              control={form.control}
-              name="password"
-              render={({ field, fieldState }) => (
-                <FormGroup label="Senha" error={fieldState.error?.message}>
-                  <Input
-                    ref={passwordInputRef}
-                    InputComponent={BottomSheetTextInput}
-                    secureTextEntry
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    autoComplete="current-password"
-                    returnKeyType="done"
-                    onSubmitEditing={handleSubmit}
-                    value={field.value}
-                    onChangeText={field.onChange}
-                    disabled={form.formState.isSubmitting}
-                  />
-                </FormGroup>
-              )}
-            /> */}
-
             <Button
             // onPress={handleSubmit}
             // isLoading={form.formState.isSubmitting}

@@ -8,6 +8,8 @@ type InputProps = Omit<TextInputProps, "readOnly"> & {
   error?: boolean;
   InputComponent?: React.ComponentType<TextInputProps>;
   ref?: React.Ref<TextInput>;
+  formatter?: (value: string) => string;
+  suffix?: string;
 };
 
 export function Input({
@@ -17,6 +19,8 @@ export function Input({
   onBlur,
   error,
   InputComponent = TextInput,
+  formatter,
+  onChangeText,
   ...props
 }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -29,6 +33,11 @@ export function Input({
   const handleBlur = (event: BlurEvent) => {
     setIsFocused(false);
     onBlur?.(event);
+  };
+
+  const handleChangeText = (value: string) => {
+    const formattedValue = formatter?.(value) ?? value;
+    onChangeText?.(formattedValue);
   };
 
   return (
@@ -44,6 +53,7 @@ export function Input({
       onFocus={handleFocus}
       onBlur={handleBlur}
       readOnly={disabled}
+      onChangeText={handleChangeText}
       {...props}
     />
   );

@@ -1,6 +1,7 @@
 {
   "[typescript]": {
-    "js/ts.preferences.importModuleSpecifier": "shortest"
+    "js/ts.preferences.importModuleSpecifier": "shortest",
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "github.copilot.enable": {
     "*": false
