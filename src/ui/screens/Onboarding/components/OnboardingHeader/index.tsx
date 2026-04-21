@@ -24,12 +24,15 @@ export function OnboardingHeader() {
     }).start();
   }, [currentStepIndex]);
 
+  const shouldHideHeader =
+    isKeyboardVisible && currentStepIndex === TOTAL_STEPS - 1;
+
   return (
     <View style={{ paddingTop: top, backgroundColor: theme.colors.white }}>
       <View
         style={[
           styles.container,
-          isKeyboardVisible && { height: 0, display: "none" },
+          shouldHideHeader && { height: 0, display: "none" },
         ]}
       >
         <Button size="icon" variant="ghost" onPress={previousStep}>

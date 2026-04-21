@@ -4,12 +4,17 @@ import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], plugins: { js }, extends: ["js/recommended"] },
+  {
+    files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    plugins: { js },
+    extends: ["js/recommended"],
+  },
   tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
   {
     rules: {
-      'react/react-in-jsx-scope': 'off'
-    }
-  }
+      "react/react-in-jsx-scope": "off",
+      "@typescript-eslint/no-namespace": "off",
+    },
+  },
 ]);

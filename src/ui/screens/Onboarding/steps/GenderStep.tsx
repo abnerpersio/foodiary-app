@@ -7,6 +7,7 @@ import {
   RadioGroupLabel,
 } from "@/ui/components/RadioGroup";
 import { ArrowRightIcon } from "lucide-react-native";
+import { Controller, useFormContext } from "react-hook-form";
 import {
   Step,
   StepContent,
@@ -16,9 +17,16 @@ import {
   StepTitle,
 } from "../components/Step";
 import { useOnboarding } from "../context/useOnboarding";
+import { OnboardingSchema } from "../schema";
 
 export function GenderStep() {
   const { nextStep } = useOnboarding();
+  const form = useFormContext<OnboardingSchema>();
+
+  const handleNext = async () => {
+    const isValid = await form.trigger("gender");
+    if (isValid) nextStep();
+  };
 
   return (
     <Step>
@@ -28,21 +36,35 @@ export function GenderStep() {
       </StepHeader>
 
       <StepContent>
-        <RadioGroup orientation="horizontal">
-          <RadioGroupItem value={Gender.MALE}>
-            <RadioGroupIcon>🧔</RadioGroupIcon>
-            <RadioGroupLabel>Masculino</RadioGroupLabel>
-          </RadioGroupItem>
+        <Controller
+          control={form.control}
+          name="gender"
+          render={({ field, fieldState }) => (
+            <RadioGroup
+              value={field.value ?? null}
+              onChangeValue={(value) => {
+                field.onChange(value);
+                form.trigger("gender");
+              }}
+              orientation="horizontal"
+              error={!!fieldState.error?.message}
+            >
+              <RadioGroupItem value={Gender.MALE}>
+                <RadioGroupIcon>🧔</RadioGroupIcon>
+                <RadioGroupLabel>Masculino</RadioGroupLabel>
+              </RadioGroupItem>
 
-          <RadioGroupItem value={Gender.FEMALE}>
-            <RadioGroupIcon>‍👩‍🦰</RadioGroupIcon>
-            <RadioGroupLabel>Feminino</RadioGroupLabel>
-          </RadioGroupItem>
-        </RadioGroup>
+              <RadioGroupItem value={Gender.FEMALE}>
+                <RadioGroupIcon>‍👩‍🦰</RadioGroupIcon>
+                <RadioGroupLabel>Feminino</RadioGroupLabel>
+              </RadioGroupItem>
+            </RadioGroup>
+          )}
+        />
       </StepContent>
 
       <StepFooter>
-        <Button size="icon" onPress={nextStep}>
+        <Button size="icon" onPress={handleNext}>
           <ArrowRightIcon />
         </Button>
       </StepFooter>

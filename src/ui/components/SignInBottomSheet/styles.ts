@@ -9,6 +9,6 @@ export const styles = StyleSheet.create({
   },
   form: {
     marginTop: 24,
-    gap: 32,
+    gap: 24,
   },
 });

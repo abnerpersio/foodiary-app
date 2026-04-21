@@ -7,6 +7,7 @@ import {
   RadioGroupLabel,
 } from "@/ui/components/RadioGroup";
 import { ArrowRightIcon } from "lucide-react-native";
+import { Controller, useFormContext } from "react-hook-form";
 import {
   Step,
   StepContent,
@@ -16,9 +17,16 @@ import {
   StepTitle,
 } from "../components/Step";
 import { useOnboarding } from "../context/useOnboarding";
+import { OnboardingSchema } from "../schema";
 
 export function GoalStep() {
   const { nextStep } = useOnboarding();
+  const form = useFormContext<OnboardingSchema>();
+
+  const handleNext = async () => {
+    const isValid = await form.trigger("goal");
+    if (isValid) nextStep();
+  };
 
   return (
     <Step>
@@ -28,26 +36,39 @@ export function GoalStep() {
       </StepHeader>
 
       <StepContent>
-        <RadioGroup>
-          <RadioGroupItem value={Goal.LOSE}>
-            <RadioGroupIcon>🥦</RadioGroupIcon>
-            <RadioGroupLabel>Perder peso</RadioGroupLabel>
-          </RadioGroupItem>
+        <Controller
+          control={form.control}
+          name="goal"
+          render={({ field, fieldState }) => (
+            <RadioGroup
+              value={field.value ?? null}
+              onChangeValue={(value) => {
+                field.onChange(value);
+                form.trigger("goal");
+              }}
+              error={!!fieldState.error?.message}
+            >
+              <RadioGroupItem value={Goal.LOSE}>
+                <RadioGroupIcon>🥦</RadioGroupIcon>
+                <RadioGroupLabel>Perder peso</RadioGroupLabel>
+              </RadioGroupItem>
 
-          <RadioGroupItem value={Goal.MAINTAIN}>
-            <RadioGroupIcon>🍍</RadioGroupIcon>
-            <RadioGroupLabel>Manter peso</RadioGroupLabel>
-          </RadioGroupItem>
+              <RadioGroupItem value={Goal.MAINTAIN}>
+                <RadioGroupIcon>🍍</RadioGroupIcon>
+                <RadioGroupLabel>Manter peso</RadioGroupLabel>
+              </RadioGroupItem>
 
-          <RadioGroupItem value={Goal.GAIN}>
-            <RadioGroupIcon>🥩</RadioGroupIcon>
-            <RadioGroupLabel>Ganhar peso</RadioGroupLabel>
-          </RadioGroupItem>
-        </RadioGroup>
+              <RadioGroupItem value={Goal.GAIN}>
+                <RadioGroupIcon>🥩</RadioGroupIcon>
+                <RadioGroupLabel>Ganhar peso</RadioGroupLabel>
+              </RadioGroupItem>
+            </RadioGroup>
+          )}
+        />
       </StepContent>
 
       <StepFooter>
-        <Button size="icon" onPress={nextStep}>
+        <Button size="icon" onPress={handleNext}>
           <ArrowRightIcon />
         </Button>
       </StepFooter>

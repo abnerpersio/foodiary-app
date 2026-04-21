@@ -1,4 +1,5 @@
 import { theme } from "@/ui/styles/theme";
+import { createVariants } from "@/ui/styles/utils/createVariants";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
@@ -7,26 +8,6 @@ export const styles = StyleSheet.create({
   },
   containerHorizontal: {
     flexDirection: "row",
-  },
-  item: {
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: theme.colors.gray[300],
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 16,
-  },
-  selectedItem: {
-    borderColor: theme.colors.lime[700],
-    backgroundColor: theme.colors.lime["700/10"],
-  },
-  horizontalItem: {
-    flexDirection: "column",
-    paddingVertical: 32,
-    flex: 1,
   },
   itemInfo: {
     gap: 2,
@@ -39,7 +20,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  selectedIcon: {
+  whiteIconBg: {
     backgroundColor: theme.colors["white/40"],
   },
   label: {
@@ -47,5 +28,45 @@ export const styles = StyleSheet.create({
   },
   textCenter: {
     textAlign: "center",
+  },
+});
+
+export const itemStyles = createVariants({
+  base: {
+    borderWidth: 1,
+    borderStyle: "solid",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+  },
+  defaultVariants: {
+    status: "default",
+    orientation: "vertical",
+  },
+  variants: {
+    status: {
+      default: {
+        borderColor: theme.colors.gray[300],
+      },
+      error: {
+        borderColor: theme.colors.support.red,
+        backgroundColor: theme.colors.support["red/10"],
+      },
+      selected: {
+        borderColor: theme.colors.lime[700],
+        backgroundColor: theme.colors.lime["700/10"],
+      },
+    },
+    orientation: {
+      vertical: {},
+      horizontal: {
+        flexDirection: "column",
+        paddingVertical: 32,
+        flex: 1,
+      },
+    },
   },
 });

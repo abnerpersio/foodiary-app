@@ -1,11 +1,14 @@
 import { AppText } from "@/ui/components/AppText";
 import { Button } from "@/ui/components/Button";
+import { FormError } from "@/ui/components/FormGroup";
 import { theme } from "@/ui/styles/theme";
+import { formatDate } from "@/ui/utils/date";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { ArrowRightIcon } from "lucide-react-native";
 import { useState } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 import { Platform, TouchableOpacity } from "react-native";
 import {
   Step,
@@ -16,17 +19,23 @@ import {
   StepTitle,
 } from "../components/Step";
 import { useOnboarding } from "../context/useOnboarding";
+import { OnboardingSchema } from "../schema";
 
 export function BirthDateStep() {
   const { nextStep } = useOnboarding();
-
-  const [date, setDate] = useState(new Date());
+  const form = useFormContext<OnboardingSchema>();
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(true);
+
+  const handleNext = async () => {
+    const isValid = await form.trigger("birthDate");
+    if (isValid) nextStep();
+  };
 
   const handleSelectDate = (_: DateTimePickerEvent, newDate?: Date) => {
     if (!newDate) return;
 
-    setDate(newDate);
+    form.setValue("birthDate", newDate);
+    form.trigger("birthDate");
 
     if (Platform.OS === "android") {
       setIsDatePickerVisible(false);
@@ -41,40 +50,44 @@ export function BirthDateStep() {
       </StepHeader>
 
       <StepContent position="center">
-        {isDatePickerVisible && (
-          <DateTimePicker
-            mode="date"
-            value={date}
-            display={Platform.OS === "ios" ? "spinner" : "calendar"}
-            onChange={handleSelectDate}
-          />
-        )}
+        <Controller
+          control={form.control}
+          name="birthDate"
+          render={({ field, fieldState }) => (
+            <>
+              {isDatePickerVisible && (
+                <DateTimePicker
+                  mode="date"
+                  value={field.value}
+                  maximumDate={new Date()}
+                  display={Platform.OS === "ios" ? "spinner" : "calendar"}
+                  onChange={handleSelectDate}
+                />
+              )}
 
-        {Platform.OS === "android" && (
-          <TouchableOpacity onPress={() => setIsDatePickerVisible(true)}>
-            <AppText
-              weight="semiBold"
-              size="3xl"
-              color={theme.colors.gray[700]}
-            >
-              {formatDate(date)}
-            </AppText>
-          </TouchableOpacity>
-        )}
+              {Platform.OS === "android" && (
+                <TouchableOpacity onPress={() => setIsDatePickerVisible(true)}>
+                  <AppText
+                    weight="semiBold"
+                    size="3xl"
+                    color={theme.colors.gray[700]}
+                  >
+                    {formatDate(field.value)}
+                  </AppText>
+                </TouchableOpacity>
+              )}
+
+              <FormError>{fieldState.error?.message}</FormError>
+            </>
+          )}
+        />
       </StepContent>
 
       <StepFooter>
-        <Button size="icon" onPress={nextStep}>
+        <Button size="icon" onPress={handleNext}>
           <ArrowRightIcon />
         </Button>
       </StepFooter>
     </Step>
   );
 }
-
-const formatDate = (date: Date) =>
-  new Intl.DateTimeFormat("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(date);

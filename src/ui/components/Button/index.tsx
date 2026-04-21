@@ -1,17 +1,20 @@
 import { theme } from "@/ui/styles/theme";
 import { VariantProps } from "@/ui/styles/utils/createVariants";
-import { Platform, Pressable, View } from "react-native";
+import { ActivityIndicator, Platform, Pressable, View } from "react-native";
 import { AppText } from "../AppText";
 import { buttonStyles, styles } from "./styles";
 
 type ButtonProps = React.ComponentProps<typeof Pressable> &
-  Omit<VariantProps<typeof buttonStyles>, "disabled">;
+  Omit<VariantProps<typeof buttonStyles>, "disabled"> & {
+    isLoading?: boolean;
+  };
 
 export function Button({
   size,
   variant,
   children,
-  disabled,
+  disabled: disabledProp,
+  isLoading,
   style,
   ...props
 }: ButtonProps) {
@@ -21,6 +24,8 @@ export function Button({
     ) : (
       children
     );
+
+  const disabled = disabledProp || isLoading;
 
   return (
     <View style={styles.wrapper}>
@@ -38,7 +43,11 @@ export function Button({
         android_ripple={{ color: theme.colors["black/10"] }}
         {...props}
       >
-        {childElement}
+        {isLoading ? (
+          <ActivityIndicator color={theme.colors.black[700]} />
+        ) : (
+          childElement
+        )}
       </Pressable>
     </View>
   );

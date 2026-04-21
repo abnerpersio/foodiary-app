@@ -18,11 +18,17 @@ export function FormGroup({ label, error, children, style }: FormGroupProps) {
 
       {cloneElement(children, { error })}
 
-      {error && (
-        <AppText size="sm" color={theme.colors.support.red}>
-          {error}
-        </AppText>
-      )}
+      {error && <FormError>{error}</FormError>}
     </View>
+  );
+}
+
+export function FormError({ children }: { children?: string }) {
+  if (!children) return null;
+
+  return (
+    <AppText size="sm" color={theme.colors.support.red}>
+      {children}
+    </AppText>
   );
 }
