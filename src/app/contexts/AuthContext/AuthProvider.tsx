@@ -23,14 +23,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const forceRender = useForceRender();
 
-  const setupAuth = useCallback(async (tokens: SetupAuthParams) => {
-    HttpService.setAccessToken(tokens.accessToken);
+  const signOut = useCallback(async () => {
+    HttpService.removeAccessToken();
+    HttpService.removeRefreshTokenHandler();
 
-    await loadAccount();
+    queryClient.clear();
+    forceRender();
 
-    await SplashScreen.hideAsync();
-    setIsReady(true);
-  }, []);
+    await AuthTokensManager.clear();
+  }, [queryClient]);
+
+  const setupAuth = useCallback(
+    async ({ accessToken }: SetupAuthParams) => {
+      HttpService.setAccessToken(accessToken);
+      HttpService.setRefreshTokenHandler(async () => {
+        try {
+          const stored = await AuthTokensManager.load();
+          if (!stored) throw new Error("Tokens not found");
+
+          const newTokens = await AuthService.refreshToken(stored);
+          HttpService.setAccessToken(newTokens.accessToken);
+          await AuthTokensManager.save(newTokens);
+        } catch (error) {
+          signOut();
+          throw error;
+        }
+      });
+
+      await loadAccount();
+
+      await SplashScreen.hideAsync();
+      setIsReady(true);
+    },
+    [signOut],
+  );
 
   const signIn = useCallback(async (params: AuthService.SignInParams) => {
     const tokens = await AuthService.signIn(params);
@@ -43,15 +69,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await AuthTokensManager.save(tokens);
     await setupAuth(tokens);
   }, []);
-
-  const signOut = useCallback(async () => {
-    HttpService.removeAccessToken();
-
-    queryClient.clear();
-    forceRender();
-
-    await AuthTokensManager.clear();
-  }, [queryClient]);
 
   useLayoutEffect(() => {
     async function load() {

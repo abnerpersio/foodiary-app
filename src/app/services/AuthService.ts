@@ -4,9 +4,7 @@ import { Goal } from "../types/Goal";
 import { HttpService } from "./HttpService";
 
 export class AuthService extends HttpService {
-  static async signIn(
-    params: AuthService.SignInParams,
-  ): Promise<AuthService.SignInResponse> {
+  static async signIn(params: AuthService.SignInParams) {
     const { data } = await this.client.post<AuthService.SignInResponse>(
       "/sign-in",
       params,
@@ -14,11 +12,17 @@ export class AuthService extends HttpService {
     return data;
   }
 
-  static async signUp(
-    params: AuthService.SignUpParams,
-  ): Promise<AuthService.SignUpResponse> {
+  static async signUp(params: AuthService.SignUpParams) {
     const { data } = await this.client.post<AuthService.SignUpResponse>(
       "/sign-up",
+      params,
+    );
+    return data;
+  }
+
+  static async refreshToken(params: AuthService.RefreshTokenParams) {
+    const { data } = await this.client.post<AuthService.RefreshTokenResponse>(
+      "/refresh-token",
       params,
     );
     return data;
@@ -53,6 +57,15 @@ export namespace AuthService {
   };
 
   export type SignUpResponse = {
+    accessToken: string;
+    refreshToken: string;
+  };
+
+  export type RefreshTokenParams = {
+    refreshToken: string;
+  };
+
+  export type RefreshTokenResponse = {
     accessToken: string;
     refreshToken: string;
   };
