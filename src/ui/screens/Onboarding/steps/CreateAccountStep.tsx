@@ -1,4 +1,4 @@
-import { AuthService } from "@/app/services/AuthService";
+import { useAuth } from "@/app/contexts/AuthContext/useAuth";
 import { ErrorCode } from "@/app/types/ErrorCode";
 import { ErrorResponse } from "@/app/types/Http";
 import { Button } from "@/ui/components/Button";
@@ -26,6 +26,8 @@ export function CreateAccountStep() {
   const passwordInputRef = useRef<TextInput>(null);
   const confirmPasswordInputRef = useRef<TextInput>(null);
 
+  const { signUp } = useAuth();
+
   const handleSubmit = form.handleSubmit(async (formValues) => {
     const isValid = await form.trigger("account");
     if (!isValid) return;
@@ -33,7 +35,7 @@ export function CreateAccountStep() {
     const [birthDate] = formValues.birthDate.toISOString().split("T");
 
     try {
-      const { accessToken, refreshToken } = await new AuthService().signUp({
+      await signUp({
         account: {
           email: formValues.account.email,
           password: formValues.account.password,

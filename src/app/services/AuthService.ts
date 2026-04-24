@@ -4,7 +4,7 @@ import { Goal } from "../types/Goal";
 import { HttpService } from "./HttpService";
 
 export class AuthService extends HttpService {
-  async signIn(
+  static async signIn(
     params: AuthService.SignInParams,
   ): Promise<AuthService.SignInResponse> {
     const { data } = await this.client.post<AuthService.SignInResponse>(
@@ -14,7 +14,7 @@ export class AuthService extends HttpService {
     return data;
   }
 
-  async signUp(
+  static async signUp(
     params: AuthService.SignUpParams,
   ): Promise<AuthService.SignUpResponse> {
     const { data } = await this.client.post<AuthService.SignUpResponse>(
