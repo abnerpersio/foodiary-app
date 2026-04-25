@@ -20,7 +20,7 @@ export function StepHeader({ children }: { children: React.ReactNode }) {
 
 export function StepTitle({ children }: { children: string }) {
   return (
-    <AppText size="3xl" weight="semiBold" style={styles.title}>
+    <AppText size="3xl" weight="semiBold" style={styles.title} align="center">
       {children}
     </AppText>
   );
@@ -28,7 +28,7 @@ export function StepTitle({ children }: { children: string }) {
 
 export function StepSubtitle({ children }: { children: string }) {
   return (
-    <AppText color={theme.colors.gray[700]} style={styles.subtitle}>
+    <AppText color={theme.colors.gray[700]} align="center">
       {children}
     </AppText>
   );

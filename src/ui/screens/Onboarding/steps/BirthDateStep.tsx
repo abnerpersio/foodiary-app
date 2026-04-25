@@ -2,7 +2,6 @@ import { AppText } from "@/ui/components/AppText";
 import { Button } from "@/ui/components/Button";
 import { FormError } from "@/ui/components/FormGroup";
 import { theme } from "@/ui/styles/theme";
-import { formatDate } from "@/ui/utils/date";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -91,3 +90,10 @@ export function BirthDateStep() {
     </Step>
   );
 }
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(date);

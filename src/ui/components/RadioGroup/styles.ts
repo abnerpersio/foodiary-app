@@ -26,9 +26,6 @@ export const styles = StyleSheet.create({
   label: {
     letterSpacing: -0.32,
   },
-  textCenter: {
-    textAlign: "center",
-  },
 });
 
 export const itemStyles = createVariants({

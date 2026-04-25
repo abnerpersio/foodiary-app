@@ -106,7 +106,8 @@ export function RadioGroupLabel({ children }: { children: string }) {
     <AppText
       size="base"
       weight="semiBold"
-      style={[styles.label, orientation === "horizontal" && styles.textCenter]}
+      align={orientation === "horizontal" ? "center" : undefined}
+      style={styles.label}
     >
       {children}
     </AppText>
@@ -115,7 +116,7 @@ export function RadioGroupLabel({ children }: { children: string }) {
 
 export function RadioGroupDescription({ children }: { children: string }) {
   return (
-    <AppText size="sm" color={theme.colors.gray[700]} style={styles.textCenter}>
+    <AppText size="sm" color={theme.colors.gray[700]} align="center">
       {children}
     </AppText>
   );

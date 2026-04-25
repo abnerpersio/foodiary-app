@@ -1,4 +1,5 @@
 import { Gender } from "../types/Gender";
+import { Goal } from "../types/Goal";
 import { HttpService } from "./HttpService";
 
 export class AccountService extends HttpService {
@@ -23,6 +24,7 @@ export namespace AccountService {
       gender: Gender;
       height: number;
       weight: number;
+      goal: Goal;
     };
     goal: {
       calories: number;

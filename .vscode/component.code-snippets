@@ -1,0 +1,34 @@
+{
+  "Component index.tsx": {
+    "scope": "typescriptreact",
+    "prefix": "rn-component",
+    "description": "React Native component with styles import",
+    "body": [
+      "import { View } from 'react-native';",
+      "",
+      "import { styles } from './styles';",
+      "",
+      "export function ${TM_DIRECTORY/^.*[\\\\|\\/](.*)$/$1/}() {",
+      "  return (",
+      "    <View style={styles.container}>",
+      "      $0",
+      "    </View>",
+      "  );",
+      "}",
+      ""
+    ]
+  },
+  "Component styles.ts": {
+    "scope": "typescript",
+    "prefix": "rn-styles",
+    "description": "React Native StyleSheet with empty container",
+    "body": [
+      "import { StyleSheet } from 'react-native';",
+      "",
+      "export const styles = StyleSheet.create({",
+      "  container: {},",
+      "});",
+      ""
+    ]
+  }
+}

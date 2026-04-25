@@ -160,6 +160,7 @@ export function CreateAccountStep() {
                   placeholder="Mínimo 8 caracteres"
                   autoCapitalize="none"
                   autoComplete="new-password"
+                  textContentType="oneTimeCode"
                   autoCorrect={false}
                   returnKeyType="done"
                   onSubmitEditing={handleSubmit}

@@ -17,6 +17,7 @@ type SetupAuthParams = {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);
+  const [signedUp, setSignedUp] = useState(false);
 
   const { account, loadAccount } = useAccount({ enabled: false });
   const queryClient = useQueryClient();
@@ -68,6 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const tokens = await AuthService.signUp(params);
     await AuthTokensManager.save(tokens);
     await setupAuth(tokens);
+    setSignedUp(true);
   }, []);
 
   useLayoutEffect(() => {
@@ -92,7 +94,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ signedIn: !!account, signIn, signUp, signOut }}
+      value={{
+        signedIn: !!account,
+        signedUp,
+        signIn,
+        signUp,
+        signOut,
+      }}
     >
       {children}
     </AuthContext.Provider>

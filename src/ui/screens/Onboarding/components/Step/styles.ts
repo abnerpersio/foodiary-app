@@ -13,10 +13,6 @@ export const styles = StyleSheet.create({
   },
   title: {
     letterSpacing: -0.32,
-    textAlign: "center",
-  },
-  subtitle: {
-    textAlign: "center",
   },
   content: {
     flex: 1,
