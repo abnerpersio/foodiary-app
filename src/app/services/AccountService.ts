@@ -3,8 +3,9 @@ import { Goal } from "../types/Goal";
 import { HttpService } from "./HttpService";
 
 export class AccountService extends HttpService {
-  static async getMe() {
-    const { data } = await this.client.get<AccountService.GetMeResponse>("/me");
+  static async getMe(): Promise<AccountService.GetMeResponse> {
+    const { data } =
+      await this.client.get<AccountService.GetMeHttpResponse>("/me");
 
     return {
       ...data,
@@ -17,10 +18,27 @@ export class AccountService extends HttpService {
 }
 
 export namespace AccountService {
-  export type GetMeResponse = {
+  export type GetMeHttpResponse = {
     profile: {
       name: string;
       birthDate: string;
+      gender: Gender;
+      height: number;
+      weight: number;
+      goal: Goal;
+    };
+    goal: {
+      calories: number;
+      proteins: number;
+      carbohydrates: number;
+      fats: number;
+    };
+  };
+
+  export type GetMeResponse = {
+    profile: {
+      name: string;
+      birthDate: Date;
       gender: Gender;
       height: number;
       weight: number;

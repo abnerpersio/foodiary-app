@@ -1,12 +1,39 @@
+import { Meal } from "@/app/types/Meal";
 import { AppText } from "@/ui/components/AppText";
 import { theme } from "@/ui/styles/theme";
+import { useMemo } from "react";
 import { Platform, Pressable, View } from "react-native";
 import { styles } from "./styles";
 
-export function MealCard() {
+type MealCardProps = {
+  meal: Meal;
+};
+
+export function MealCard({ meal }: MealCardProps) {
+  const foods = useMemo(
+    () => meal.foods.map((food) => food.name).join(", "),
+    [meal.foods],
+  );
+
+  const summary = useMemo(
+    () =>
+      meal.foods.reduce(
+        (acc, food) => ({
+          calories: acc.calories + food.calories,
+          proteins: acc.proteins + food.proteins,
+          carbohydrates: acc.carbohydrates + food.carbohydrates,
+          fats: acc.fats + food.fats,
+        }),
+        { calories: 0, proteins: 0, carbohydrates: 0, fats: 0 },
+      ),
+    [meal.foods],
+  );
+
   return (
     <View style={styles.container}>
-      <AppText color={theme.colors.gray[700]}>12h15</AppText>
+      <AppText color={theme.colors.gray[700]}>
+        {formatTime(meal.createdAt)}
+      </AppText>
 
       <View style={styles.cardWrapper}>
         <Pressable
@@ -18,7 +45,7 @@ export function MealCard() {
         >
           <View style={styles.cardHeader}>
             <View style={styles.icon}>
-              <AppText>🍞</AppText>
+              <AppText>{meal.icon}</AppText>
             </View>
 
             <View style={styles.mealTitle}>
@@ -27,11 +54,11 @@ export function MealCard() {
                 size="sm"
                 numberOfLines={1}
               >
-                Café da manhã
+                {meal.name}
               </AppText>
 
-              <AppText weight="medium" numberOfLines={2}>
-                Pão, manteiga
+              <AppText weight="medium" numberOfLines={1}>
+                {foods}
               </AppText>
             </View>
           </View>
@@ -40,7 +67,7 @@ export function MealCard() {
             <View style={styles.mealStatRow}>
               <View style={styles.mealStat}>
                 <AppText color={theme.colors.support.tomato} weight="medium">
-                  200
+                  {summary.calories}
                 </AppText>
 
                 <AppText color={theme.colors.gray[700]}>Kcal</AppText>
@@ -48,7 +75,7 @@ export function MealCard() {
 
               <View style={styles.mealStat}>
                 <AppText color={theme.colors.support.teal} weight="medium">
-                  5g
+                  {summary.proteins}g
                 </AppText>
 
                 <AppText color={theme.colors.gray[700]}>Proteínas</AppText>
@@ -58,7 +85,7 @@ export function MealCard() {
             <View style={styles.mealStatRow}>
               <View style={styles.mealStat}>
                 <AppText color={theme.colors.support.yellow} weight="medium">
-                  200
+                  {summary.carbohydrates}g
                 </AppText>
 
                 <AppText color={theme.colors.gray[700]}>Carboídratos</AppText>
@@ -66,7 +93,7 @@ export function MealCard() {
 
               <View style={styles.mealStat}>
                 <AppText color={theme.colors.support.orange} weight="medium">
-                  5g
+                  {summary.fats}g
                 </AppText>
 
                 <AppText color={theme.colors.gray[700]}>Gorduras</AppText>
@@ -78,3 +105,9 @@ export function MealCard() {
     </View>
   );
 }
+
+const formatTime = (date: Date) => {
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  return `${hours}h${minutes}`;
+};

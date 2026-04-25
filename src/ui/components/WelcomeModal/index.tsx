@@ -1,5 +1,5 @@
 import { useAuth } from "@/app/contexts/AuthContext/useAuth";
-import { useAccount } from "@/app/hooks/useAccount";
+import { useAccount } from "@/app/hooks/queries/useAccount";
 import { Goal } from "@/app/types/Goal";
 import { theme } from "@/ui/styles/theme";
 import { useState } from "react";

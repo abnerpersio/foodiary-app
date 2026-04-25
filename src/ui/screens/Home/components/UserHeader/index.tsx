@@ -1,4 +1,4 @@
-import { useAccount } from "@/app/hooks/useAccount";
+import { useAccount } from "@/app/hooks/queries/useAccount";
 import { AppText } from "@/ui/components/AppText";
 import { Button } from "@/ui/components/Button";
 import { theme } from "@/ui/styles/theme";

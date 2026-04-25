@@ -1,4 +1,4 @@
-import { useAccount } from "@/app/hooks/useAccount";
+import { useAccount } from "@/app/hooks/queries/useAccount";
 import { GoalStats } from "@/ui/components/GoalStats";
 import { StyleProp, View, ViewStyle } from "react-native";
 import { styles } from "./styles";

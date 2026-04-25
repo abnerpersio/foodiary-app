@@ -1,3 +1,5 @@
+import { useMeals } from "@/app/hooks/queries/useMeals";
+import { FullScreenLoader } from "@/ui/components/FullScreenLoader";
 import { WelcomeModal } from "@/ui/components/WelcomeModal";
 import { theme } from "@/ui/styles/theme";
 import { useState } from "react";
@@ -13,11 +15,17 @@ export function Home() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { bottom, top } = useSafeAreaInsets();
 
+  const { isInitialLoading, meals } = useMeals(new Date());
+
   const handleRefresh = async () => {
     setIsRefreshing(true);
     await new Promise((resolve) => setTimeout(resolve, 2_000));
     setIsRefreshing(false);
   };
+
+  if (isInitialLoading) {
+    return <FullScreenLoader />;
+  }
 
   return (
     <View style={[styles.container, { paddingTop: top }]}>
@@ -26,8 +34,8 @@ export function Home() {
       <WelcomeModal />
 
       <FlatList
-        data={[1, 2, 3, 4, 5]}
-        keyExtractor={(item) => String(item)}
+        data={meals}
+        keyExtractor={(meal) => meal.id}
         contentContainerStyle={[
           styles.listItemContent,
           { paddingBottom: Math.max(bottom, 24) + 24 },
@@ -43,7 +51,7 @@ export function Home() {
             colors={[theme.colors.lime[700]]}
           />
         }
-        renderItem={() => <MealCard />}
+        renderItem={({ item: meal }) => <MealCard meal={meal} />}
       />
     </View>
   );

@@ -40,6 +40,7 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.colors.gray[100],
     borderRadius: 8,
     padding: 16,
+    gap: 16,
   },
   mealStatRow: {
     flexDirection: "row",

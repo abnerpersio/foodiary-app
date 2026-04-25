@@ -1,5 +1,5 @@
 import { useForceRender } from "@/app/hooks/app/useForceRender";
-import { useAccount } from "@/app/hooks/useAccount";
+import { useAccount } from "@/app/hooks/queries/useAccount";
 import { AuthTokensManager } from "@/app/lib/AuthTokensManager";
 import { AuthService } from "@/app/services/AuthService";
 import { HttpService } from "@/app/services/HttpService";
