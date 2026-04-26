@@ -34,7 +34,7 @@ export const useHome = () => {
       setIsRefreshing(true);
       await reloadMeals();
     } finally {
-      setIsRefreshing(true);
+      setIsRefreshing(false);
     }
   };
 
