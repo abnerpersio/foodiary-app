@@ -17,11 +17,11 @@ import {
   StepSubtitle,
   StepTitle,
 } from "../components/Step";
-import { useOnboarding } from "../context/useOnboarding";
+import { useOnboardingContext } from "../context/useOnboardingContext";
 import { OnboardingSchema } from "../schema";
 
 export function BirthDateStep() {
-  const { nextStep } = useOnboarding();
+  const { nextStep } = useOnboardingContext();
   const form = useFormContext<OnboardingSchema>();
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(true);
 

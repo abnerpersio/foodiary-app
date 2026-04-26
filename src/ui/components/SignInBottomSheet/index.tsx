@@ -6,6 +6,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import { Controller } from "react-hook-form";
 import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AppText } from "../AppText";
 import { Button } from "../Button";
 import { FormGroup } from "../FormGroup";
@@ -20,13 +21,13 @@ type SignInBottomSheetProps = {
 
 export function SignInBottomSheet({ ref }: SignInBottomSheetProps) {
   const {
-    bottom,
     bottomSheetModalRef,
     passwordInputRef,
     handleSubmit,
     isLoading,
     form,
   } = useSignInBottomSheet(ref);
+  const { bottom } = useSafeAreaInsets();
 
   return (
     <BottomSheetModalProvider>

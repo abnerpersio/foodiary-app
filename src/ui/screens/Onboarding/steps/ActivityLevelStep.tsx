@@ -17,11 +17,11 @@ import {
   StepHeader,
   StepTitle,
 } from "../components/Step";
-import { useOnboarding } from "../context/useOnboarding";
+import { useOnboardingContext } from "../context/useOnboardingContext";
 import { OnboardingSchema } from "../schema";
 
 export function ActivityLevelStep() {
-  const { nextStep } = useOnboarding();
+  const { nextStep } = useOnboardingContext();
   const form = useFormContext<OnboardingSchema>();
 
   const handleNext = async () => {

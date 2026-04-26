@@ -5,13 +5,13 @@ import { ChevronLeftIcon } from "lucide-react-native";
 import { useEffect, useRef } from "react";
 import { Animated, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useOnboarding } from "../../context/useOnboarding";
+import { useOnboardingContext } from "../../context/useOnboardingContext";
 import { TOTAL_STEPS } from "../../steps";
 import { styles } from "./styles";
 
 export function OnboardingHeader() {
   const { top } = useSafeAreaInsets();
-  const { currentStepIndex, previousStep } = useOnboarding();
+  const { currentStepIndex, previousStep } = useOnboardingContext();
   const isKeyboardVisible = useIsKeyboardVisible();
 
   const widthAnimation = useRef(new Animated.Value(0));
