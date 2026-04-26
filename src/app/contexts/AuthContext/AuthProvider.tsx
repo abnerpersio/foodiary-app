@@ -37,13 +37,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const setupAuth = useCallback(
     async ({ accessToken }: SetupAuthParams) => {
       HttpService.setAccessToken(accessToken);
+
       HttpService.setRefreshTokenHandler(async () => {
         try {
           const stored = await AuthTokensManager.load();
           if (!stored) throw new Error("Tokens not found");
 
-          const newTokens = await AuthService.refreshToken(stored);
+          const newTokens = await AuthService.refreshToken({
+            refreshToken: stored.refreshToken,
+          });
           HttpService.setAccessToken(newTokens.accessToken);
+
           await AuthTokensManager.save(newTokens);
         } catch (error) {
           signOut();
@@ -82,7 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      setupAuth(tokens);
+      await setupAuth(tokens);
     }
 
     load();

@@ -4,6 +4,7 @@ import { theme } from "@/ui/styles/theme";
 import { FlatList, RefreshControl, StatusBar, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { EmptyState } from "./components/EmptyState";
+import { Fab } from "./components/Fab";
 import { Header } from "./components/Header";
 import { ItemSeparator } from "./components/ItemSeparator";
 import { MealCard } from "./components/MealCard";
@@ -30,15 +31,15 @@ export function Home() {
   }
 
   return (
-    <HomeProvider
-      selectedDate={selectedDate}
-      nextDay={handleNextDay}
-      previousDay={handlePreviousDay}
-      meals={meals}
-      isLoading={isLoading}
-      isRefreshing={isRefreshing}
-    >
-      <View style={[styles.container, { paddingTop: top }]}>
+    <View style={[styles.container, { paddingTop: top }]}>
+      <HomeProvider
+        selectedDate={selectedDate}
+        nextDay={handleNextDay}
+        previousDay={handlePreviousDay}
+        meals={meals}
+        isLoading={isLoading}
+        isRefreshing={isRefreshing}
+      >
         <StatusBar animated translucent barStyle="dark-content" />
 
         <WelcomeModal />
@@ -63,7 +64,9 @@ export function Home() {
           }
           renderItem={({ item: meal }) => <MealCard meal={meal} />}
         />
-      </View>
-    </HomeProvider>
+
+        {meals.length > 0 && <Fab />}
+      </HomeProvider>
+    </View>
   );
 }

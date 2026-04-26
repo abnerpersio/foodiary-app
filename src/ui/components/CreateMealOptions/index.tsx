@@ -35,7 +35,7 @@ export function OptionButton({
     <View style={styles.buttonWrapper}>
       <Pressable
         disabled={disabled}
-        android_ripple={{ color: theme.colors["black/10"] }}
+        android_ripple={{ color: theme.colors["black/10"], foreground: true }}
         style={({ pressed }) => [
           styles.button,
           pressed && Platform.OS === "ios" && { opacity: 0.5 },

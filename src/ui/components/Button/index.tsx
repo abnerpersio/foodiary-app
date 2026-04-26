@@ -43,7 +43,7 @@ export function Button({
           typeof style === "function" ? style({ pressed }) : style,
         ]}
         disabled={disabled}
-        android_ripple={{ color: theme.colors["black/10"] }}
+        android_ripple={{ color: theme.colors["black/10"], foreground: true }}
         {...props}
       >
         {isLoading ? (
