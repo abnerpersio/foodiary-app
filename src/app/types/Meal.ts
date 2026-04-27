@@ -12,3 +12,10 @@ export type Meal = {
     fats: number;
   }[];
 };
+
+enum MealInputTypeEnum {
+  AUDIO = "AUDIO",
+  PICTURE = "PICTURE",
+}
+export const MealInputType = MealInputTypeEnum;
+export type MealInputType = `${MealInputTypeEnum}`;

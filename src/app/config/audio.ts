@@ -1,0 +1,1 @@
+export const MAX_AUDIO_DURATION_SECONDS = 30;

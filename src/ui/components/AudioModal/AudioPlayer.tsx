@@ -1,32 +1,77 @@
 import { theme } from "@/ui/styles/theme";
 import { formatSeconds } from "@/ui/utils/date";
-import { CheckIcon, PlayIcon, Trash2Icon } from "lucide-react-native";
+import { useAudioPlayer, useAudioPlayerStatus } from "expo-audio";
+import {
+  CheckIcon,
+  PauseIcon,
+  PlayIcon,
+  Trash2Icon,
+} from "lucide-react-native";
 import { View } from "react-native";
 import { AppText } from "../AppText";
 import { Button } from "../Button";
 import { styles } from "./styles";
 
 type AudioPlayerProps = {
-  duration: number;
+  audioUri: string;
+  onTryAgain: () => void;
+  onConfirm: () => void;
 };
 
-export function AudioPlayer({ duration }: AudioPlayerProps) {
+export function AudioPlayer({
+  audioUri,
+  onTryAgain,
+  onConfirm,
+}: AudioPlayerProps) {
+  const player = useAudioPlayer(audioUri);
+  const { duration, playing, currentTime } = useAudioPlayerStatus(player);
+
+  const handlePlayPause = () => {
+    if (player.playing) {
+      player.pause();
+      return;
+    }
+
+    player.seekTo(0);
+    player.play();
+  };
+
   return (
     <>
       <View style={styles.actionsGroup}>
-        <Button size="icon" variant="neutral" rippleStyle="light">
+        <Button
+          onPress={onTryAgain}
+          size="icon"
+          variant="neutral"
+          rippleStyle="light"
+        >
           <Trash2Icon size={20} color={theme.colors.gray[500]} />
         </Button>
 
-        <Button size="icon" variant="neutral" rippleStyle="light">
-          <PlayIcon
-            size={20}
-            color={theme.colors.lime[600]}
-            fill={theme.colors.lime[600]}
-          />
+        <Button
+          onPress={handlePlayPause}
+          size="icon"
+          variant="neutral"
+          rippleStyle="light"
+        >
+          {playing && (
+            <PauseIcon
+              size={20}
+              color={theme.colors.lime[600]}
+              fill={theme.colors.lime[600]}
+            />
+          )}
+
+          {!playing && (
+            <PlayIcon
+              size={20}
+              color={theme.colors.lime[600]}
+              fill={theme.colors.lime[600]}
+            />
+          )}
         </Button>
 
-        <Button size="icon" variant="primary">
+        <Button onPress={onConfirm} size="icon" variant="primary">
           <CheckIcon size={20} color={theme.colors.black[700]} />
         </Button>
       </View>
@@ -36,7 +81,7 @@ export function AudioPlayer({ duration }: AudioPlayerProps) {
         style={styles.actionLabel}
         align="center"
       >
-        {formatSeconds(duration)}
+        {formatSeconds(currentTime)} / {formatSeconds(duration)}
       </AppText>
     </>
   );

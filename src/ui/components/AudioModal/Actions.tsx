@@ -1,3 +1,4 @@
+import { MAX_AUDIO_DURATION_SECONDS } from "@/app/config/audio";
 import { theme } from "@/ui/styles/theme";
 import { formatSeconds, SECOND } from "@/ui/utils/date";
 import { MicIcon, SquareIcon } from "lucide-react-native";
@@ -10,16 +11,27 @@ import { AudioModalState } from "./useAudioModal";
 
 type ActionsProps = {
   state: AudioModalState;
+  audioUri: string | null;
   onStartRecording: () => void;
   onStopRecording: () => void;
+  onTryAgain: () => void;
+  onConfirm: () => void;
 };
 
 export function Actions({
   state,
+  audioUri,
   onStartRecording,
   onStopRecording,
+  onTryAgain,
+  onConfirm,
 }: ActionsProps) {
   const [recordingTimeInSeconds, setRecordingTimeInSeconds] = useState(0);
+
+  const handleTryAgain = () => {
+    setRecordingTimeInSeconds(0);
+    onTryAgain();
+  };
 
   useEffect(() => {
     if (state !== "recording") return;
@@ -35,6 +47,12 @@ export function Actions({
       }
     };
   }, [state]);
+
+  useEffect(() => {
+    if (recordingTimeInSeconds >= MAX_AUDIO_DURATION_SECONDS) {
+      onStopRecording();
+    }
+  }, [recordingTimeInSeconds, onStopRecording]);
 
   if (state === "idle") {
     return (
@@ -86,8 +104,14 @@ export function Actions({
     );
   }
 
-  if (state === "recorded") {
-    return <AudioPlayer duration={recordingTimeInSeconds} />;
+  if (state === "recorded" && audioUri) {
+    return (
+      <AudioPlayer
+        audioUri={audioUri}
+        onTryAgain={handleTryAgain}
+        onConfirm={onConfirm}
+      />
+    );
   }
 
   return null;
