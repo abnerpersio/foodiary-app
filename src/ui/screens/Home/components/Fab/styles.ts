@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
     elevation: 24,
   },
   content: {
+    paddingVertical: 16,
     paddingHorizontal: 24,
     gap: 24,
   },

@@ -1,7 +1,8 @@
-const SECOND = 1000;
-const MINUTE = 60 * SECOND;
-const HOUR = 60 * MINUTE;
-const DAY = 24 * HOUR;
+export const SECOND = 1000;
+export const MINUTE = 60 * SECOND;
+export const HOUR = 60 * MINUTE;
+export const DAY = 24 * HOUR;
+const MINUTE_TO_SECOND = 60;
 
 export const isBefore = (a: Date, b: Date) => {
   const first = new Date(a);
@@ -16,4 +17,11 @@ export const addYears = (date: Date, qty: number) => {
   const final = new Date(date);
   final.setFullYear(final.getFullYear() + qty);
   return final;
+};
+
+export const formatSeconds = (seconds: number) => {
+  const minutes = Math.floor(seconds / MINUTE_TO_SECOND);
+  const remainingSeconds = Math.floor(seconds % MINUTE_TO_SECOND);
+
+  return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
 };

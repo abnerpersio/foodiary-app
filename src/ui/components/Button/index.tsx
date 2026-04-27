@@ -9,6 +9,7 @@ type ButtonProps = React.ComponentProps<typeof Pressable> &
   Omit<VariantProps<typeof buttonStyles>, "disabled"> & {
     isLoading?: boolean;
     leftIcon?: LucideIcon;
+    rippleStyle?: "light" | "dark";
   };
 
 export function Button({
@@ -19,6 +20,7 @@ export function Button({
   isLoading,
   leftIcon: LeftIcon,
   style,
+  rippleStyle = "dark",
   ...props
 }: ButtonProps) {
   const childElement =
@@ -43,7 +45,13 @@ export function Button({
           typeof style === "function" ? style({ pressed }) : style,
         ]}
         disabled={disabled}
-        android_ripple={{ color: theme.colors["black/10"], foreground: true }}
+        android_ripple={{
+          foreground: true,
+          color:
+            rippleStyle === "dark"
+              ? "rgba(0, 0, 0, .1)"
+              : "rgba(255, 255, 255, .1)",
+        }}
         {...props}
       >
         {isLoading ? (

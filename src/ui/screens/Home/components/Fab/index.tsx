@@ -32,7 +32,11 @@ export function Fab() {
       </View>
 
       <BottomSheetModalProvider>
-        <BottomSheetModal ref={bottomSheetModalRef} style={styles.bottomSheet}>
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          style={styles.bottomSheet}
+          enablePanDownToClose
+        >
           <BottomSheetView
             style={[styles.content, { paddingBottom: Math.max(bottom, 24) }]}
           >

@@ -31,7 +31,7 @@ export function SignInBottomSheet({ ref }: SignInBottomSheetProps) {
 
   return (
     <BottomSheetModalProvider>
-      <BottomSheetModal ref={bottomSheetModalRef}>
+      <BottomSheetModal ref={bottomSheetModalRef} enablePanDownToClose>
         <BottomSheetView
           style={[styles.container, { paddingBottom: Math.max(bottom, 24) }]}
         >
