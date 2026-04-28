@@ -1,6 +1,6 @@
 import { Image, Modal, StatusBar, View } from "react-native";
 
-import { MealInputType } from "@/app/types/Meal";
+import { Meal } from "@/app/types/Meal";
 import { theme } from "@/ui/styles/theme";
 import { CameraView } from "expo-camera";
 import {
@@ -20,9 +20,14 @@ import { usePictureModal } from "./usePictureModal";
 type PictureModalProps = {
   visible: boolean;
   onClose: () => void;
+  onCreate?: () => void;
 };
 
-export function PictureModal({ visible, onClose }: PictureModalProps) {
+export function PictureModal({
+  visible,
+  onClose,
+  onCreate,
+}: PictureModalProps) {
   const {
     cameraRef,
     isLoading,
@@ -32,7 +37,7 @@ export function PictureModal({ visible, onClose }: PictureModalProps) {
     handleTakePicture,
     handleTryAgain,
     handleConfirm,
-  } = usePictureModal();
+  } = usePictureModal({ onClose, onCreate });
 
   return (
     <Modal
@@ -44,7 +49,7 @@ export function PictureModal({ visible, onClose }: PictureModalProps) {
     >
       <StatusBar animated translucent barStyle="light-content" />
 
-      {isLoading && <CreateMealLoader type={MealInputType.PICTURE} />}
+      {isLoading && <CreateMealLoader type={Meal.InputType.PICTURE} />}
 
       {!isLoading && permission && (
         <View style={styles.container}>

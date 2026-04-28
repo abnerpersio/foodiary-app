@@ -1,6 +1,7 @@
 import { AppText } from "@/ui/components/AppText";
 import { Button } from "@/ui/components/Button";
 import { theme } from "@/ui/styles/theme";
+import { isAfter, isSame } from "@/ui/utils/date";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react-native";
 import { View } from "react-native";
 import { useHomeContext } from "../../context/useHome";
@@ -32,7 +33,11 @@ export function DateSwitcher() {
         onPress={nextDay}
         size="icon"
         variant="ghost"
-        disabled={isLoading}
+        disabled={
+          isLoading ||
+          isAfter(selectedDate, new Date()) ||
+          isSame(selectedDate, new Date())
+        }
       >
         <ChevronRightIcon />
       </Button>

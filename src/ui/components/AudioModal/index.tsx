@@ -1,6 +1,6 @@
 import { Modal, StatusBar, View } from "react-native";
 
-import { MealInputType } from "@/app/types/Meal";
+import { Meal } from "@/app/types/Meal";
 import { theme } from "@/ui/styles/theme";
 import { XIcon } from "lucide-react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -14,9 +14,10 @@ import { useAudioModal } from "./useAudioModal";
 type AudioModalProps = {
   visible: boolean;
   onClose: () => void;
+  onCreate?: () => void;
 };
 
-export function AudioModal({ visible, onClose }: AudioModalProps) {
+export function AudioModal({ visible, onClose, onCreate }: AudioModalProps) {
   const {
     state,
     isLoading,
@@ -25,7 +26,7 @@ export function AudioModal({ visible, onClose }: AudioModalProps) {
     handleStopRecording,
     handleTryAgain,
     handleConfirm,
-  } = useAudioModal();
+  } = useAudioModal({ onClose, onCreate });
 
   const isRecording = state === "recording";
 
@@ -39,7 +40,7 @@ export function AudioModal({ visible, onClose }: AudioModalProps) {
     >
       <StatusBar animated translucent barStyle="light-content" />
 
-      {isLoading && <CreateMealLoader type={MealInputType.AUDIO} />}
+      {isLoading && <CreateMealLoader type={Meal.InputType.AUDIO} />}
 
       {!isLoading && (
         <View style={styles.container}>

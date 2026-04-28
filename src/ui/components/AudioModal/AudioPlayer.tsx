@@ -23,7 +23,8 @@ export function AudioPlayer({
   onTryAgain,
   onConfirm,
 }: AudioPlayerProps) {
-  const player = useAudioPlayer(audioUri);
+  const player = useAudioPlayer(audioUri, {});
+
   const { duration, playing, currentTime } = useAudioPlayerStatus(player);
 
   const handlePlayPause = () => {
