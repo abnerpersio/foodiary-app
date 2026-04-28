@@ -1,23 +1,13 @@
 import { ActivityLevel } from "@/app/types/ActivityLevel";
 import { Gender } from "@/app/types/Gender";
 import { Goal } from "@/app/types/Goal";
-import { addYears, isBefore } from "@/ui/utils/date";
+import { birthDateSchema } from "@/ui/utils/birthDate";
 import z from "zod";
-
-const MIN_YEARS = 14;
 
 export const onboardingSchema = z.object({
   goal: z.enum(Goal),
   gender: z.enum(Gender),
-  birthDate: z.date("Insira uma data").refine(
-    (date) => {
-      const minDate = addYears(new Date(), -MIN_YEARS);
-      return isBefore(date, minDate);
-    },
-    {
-      message: `Você deve ter pelo menos ${MIN_YEARS} anos`,
-    },
-  ),
+  birthDate: birthDateSchema,
   height: z.string().min(1, "Informe a sua altura"),
   weight: z.string().min(1, "Informe o seu peso"),
   activityLevel: z.enum(ActivityLevel),

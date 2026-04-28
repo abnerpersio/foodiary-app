@@ -1,7 +1,8 @@
 import { theme } from "@/ui/styles/theme";
 import { useState } from "react";
-import { BlurEvent, FocusEvent, TextInput, TextInputProps } from "react-native";
-import { inputStyles } from "./styles";
+import { BlurEvent, FocusEvent, TextInput, TextInputProps, View } from "react-native";
+import { AppText } from "../AppText";
+import { inputStyles, suffixStyles } from "./styles";
 
 type InputProps = Omit<TextInputProps, "readOnly"> & {
   disabled?: boolean;
@@ -21,6 +22,7 @@ export function Input({
   InputComponent = TextInput,
   formatter,
   onChangeText,
+  suffix,
   ...props
 }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -40,14 +42,14 @@ export function Input({
     onChangeText?.(formattedValue);
   };
 
-  return (
+  const inputElement = (
     <InputComponent
       style={[
         inputStyles({
           status: error ? "error" : isFocused ? "focus" : "default",
           disabled: disabled ? "true" : "false",
         }),
-        style,
+        suffix ? { flex: 1 } : style,
       ]}
       placeholderTextColor={theme.colors.gray[700]}
       onFocus={handleFocus}
@@ -56,5 +58,16 @@ export function Input({
       onChangeText={handleChangeText}
       {...props}
     />
+  );
+
+  if (!suffix) return inputElement;
+
+  return (
+    <View style={[suffixStyles.row, style]}>
+      {inputElement}
+      <View style={suffixStyles.suffix}>
+        <AppText color={theme.colors.gray[700]}>{suffix}</AppText>
+      </View>
+    </View>
   );
 }

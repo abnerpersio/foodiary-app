@@ -2,24 +2,17 @@ import { theme } from "@/ui/styles/theme";
 import { createVariants } from "@/ui/styles/utils/createVariants";
 import { StyleSheet } from "react-native";
 
-export const suffixStyles = StyleSheet.create({
-  row: {
-    flexDirection: "row",
-    gap: 8,
-    alignItems: "flex-start",
-  },
-  suffix: {
-    backgroundColor: theme.colors.gray[100],
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 14,
-    minWidth: 56,
+export const styles = StyleSheet.create({
+  pickerContainer: {
     alignItems: "center",
-    justifyContent: "center",
+  },
+  pickerDoneRow: {
+    marginTop: 8,
+    alignSelf: "flex-end",
   },
 });
 
-export const inputStyles = createVariants({
+export const dateInputStyles = createVariants({
   defaultVariants: {
     status: "default",
     disabled: "false",
@@ -31,18 +24,14 @@ export const inputStyles = createVariants({
     borderRadius: 10,
     height: 52,
     paddingHorizontal: 14,
-    paddingVertical: 8,
-    color: theme.colors.black[700],
-    fontSize: 16,
-    fontFamily: theme.fontFamily.sans.regular,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   variants: {
     status: {
       default: {
         borderColor: theme.colors.gray[400],
-      },
-      focus: {
-        borderColor: theme.colors.gray[700],
       },
       error: {
         borderColor: theme.colors.support.red,

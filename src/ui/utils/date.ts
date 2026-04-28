@@ -38,3 +38,7 @@ export const formatSeconds = (seconds: number) => {
 
   return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
 };
+
+export const formatDateToAPI = (date: Date) => {
+  return date.toISOString().split("T")[0];
+};

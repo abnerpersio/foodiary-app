@@ -9,6 +9,7 @@ type RadioGroupContextType = {
   setValue: (selectedValue: string) => void;
   orientation: "horizontal" | "vertical";
   error: boolean;
+  disabled: boolean;
 };
 
 const RadioGroupContext = createContext({} as RadioGroupContextType);
@@ -19,6 +20,7 @@ type RadioGroupProps = {
   onChangeValue: (value: string) => void;
   orientation?: "horizontal" | "vertical";
   error?: boolean;
+  disabled?: boolean;
 };
 
 export function RadioGroup({
@@ -27,6 +29,7 @@ export function RadioGroup({
   children,
   orientation = "vertical",
   error = false,
+  disabled = false,
 }: RadioGroupProps) {
   return (
     <RadioGroupContext.Provider
@@ -35,6 +38,7 @@ export function RadioGroup({
         setValue: onChangeValue,
         orientation,
         error,
+        disabled,
       }}
     >
       <View
@@ -62,15 +66,18 @@ export function RadioGroupItem({ children, value }: RadioGroupItemProps) {
     setValue,
     orientation,
     error,
+    disabled,
   } = use(RadioGroupContext);
   const isSelected = value === selectedValue;
 
   return (
     <RadioGroupItemContext.Provider value={{ isSelected }}>
       <TouchableOpacity
+        disabled={disabled}
         style={itemStyles({
           orientation,
           status: error ? "error" : isSelected ? "selected" : "default",
+          disabled: disabled ? "true" : "false",
         })}
         onPress={() => setValue(value)}
       >

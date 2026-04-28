@@ -22,6 +22,8 @@ npm android
 npm typecheck
 ```
 
+No testing infrastructure exists (no Jest/Vitest setup). ESLint is configured via `eslint.config.mts` (ESLint 9 flat config) but there is no `lint` npm script — run ESLint directly if needed.
+
 ## Architecture
 
 ### Directory Structure
@@ -47,8 +49,8 @@ npm typecheck
 
 The project uses TypeScript path aliases configured in `tsconfig.json`:
 
-- `@app/*` → `./src/app/*`
-- `@ui/*` → `./src/ui/*`
+- `@/app/*` → `./src/app/*`
+- `@/ui/*` → `./src/ui/*`
 
 Always use these aliases when importing from these directories.
 
@@ -154,15 +156,16 @@ The app uses a class-based service architecture for API communication:
 
 - Configured via `src/app/lib/queryClient.ts`
 - Hooks organized by type:
-  - `src/app/hooks/queries/` - Data fetching (useAccount, etc.)
-  - `src/app/hooks/mutations/` - Data mutations (useCreateMeal, etc.)
+  - `src/app/hooks/queries/` - Data fetching (`useMeals`, `useMeal`, `useAccount`)
+  - `src/app/hooks/mutations/` - Data mutations (`useCreateMeal`)
 - Query client is cleared on sign out to prevent stale data
+- `useMeal` polls every 3 seconds while a meal's status is `UPLOADING`, `QUEUED`, or `PROCESSING`, then stops once processing completes
 
 **React Context**:
 
-- AuthContext for authentication state
-- HomeProvider for home screen state
-- OnboardingProvider for onboarding flow state
+- `AuthContext` - authentication state and token lifecycle
+- `HomeProvider` - home screen state (selected date, currently viewed meal)
+- `OnboardingProvider` - step tracking and navigation for the multi-step onboarding flow
 
 ### Environment Configuration
 
@@ -170,7 +173,7 @@ Environment variables are managed through `src/app/config/env.ts`:
 
 - Uses Zod for runtime validation of environment variables
 - Variables must be prefixed with `EXPO_PUBLIC_` to be available in the app
-- Currently validates: `EXPO_PUBLIC_API_URL` (must be a valid URL)
+- Currently validates: `EXPO_PUBLIC_API_BASE_URL` (required, non-empty string)
 
 ### Component Patterns
 

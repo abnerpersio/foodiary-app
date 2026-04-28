@@ -15,7 +15,7 @@ import { styles } from "./styles";
 
 export function Greetings() {
   const signInBottomSheetRef = useRef<SignInBottomSheetRef>(null);
-  const navigation = useNavigation<AuthStackNavigationProps>();
+  const { navigate } = useNavigation<AuthStackNavigationProps>();
 
   return (
     <>
@@ -38,7 +38,7 @@ export function Greetings() {
             </AppText>
 
             <View style={styles.ctaContent}>
-              <Button onPress={() => navigation.navigate("Onboarding")}>
+              <Button onPress={() => navigate("Onboarding")}>
                 Criar conta
               </Button>
 

@@ -42,6 +42,7 @@ export const itemStyles = createVariants({
   defaultVariants: {
     status: "default",
     orientation: "vertical",
+    disabled: "false",
   },
   variants: {
     status: {
@@ -63,6 +64,14 @@ export const itemStyles = createVariants({
         flexDirection: "column",
         paddingVertical: 32,
         flex: 1,
+      },
+    },
+    disabled: {
+      true: {
+        opacity: 0.5,
+      },
+      false: {
+        opacity: 1,
       },
     },
   },

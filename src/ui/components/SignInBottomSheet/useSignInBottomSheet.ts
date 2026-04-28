@@ -4,13 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useImperativeHandle, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, TextInput } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { signInSchema } from "./schema";
 import { SignInBottomSheetRef } from "./types";
 
 export function useSignInBottomSheet(ref: React.Ref<SignInBottomSheetRef>) {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const { bottom } = useSafeAreaInsets();
   const passwordInputRef = useRef<TextInput>(null);
   const { signIn } = useAuth();
 
@@ -46,7 +44,6 @@ export function useSignInBottomSheet(ref: React.Ref<SignInBottomSheetRef>) {
   return {
     bottomSheetModalRef,
     passwordInputRef,
-    bottom,
     handleSubmit,
     isLoading,
     form,

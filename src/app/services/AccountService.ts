@@ -15,6 +15,7 @@ export class AccountService extends HttpService {
       },
     };
   }
+
 }
 
 export namespace AccountService {

@@ -1,8 +1,9 @@
 import { MealService } from "@/app/services/MealService";
+import { formatDateToAPI } from "@/ui/utils/date";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 export function useMeals(dateToSearch: Date) {
-  const [date] = dateToSearch.toISOString().split("T");
+  const date = formatDateToAPI(dateToSearch);
 
   const { data, isLoading, isFetching, refetch } = useQuery({
     queryKey: ["meals", date],

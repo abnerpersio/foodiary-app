@@ -5,6 +5,7 @@ import { Button } from "@/ui/components/Button";
 import { FormGroup } from "@/ui/components/FormGroup";
 import { Input } from "@/ui/components/Input";
 import { theme } from "@/ui/styles/theme";
+import { formatDateToAPI } from "@/ui/utils/date";
 import { isAxiosError } from "axios";
 import { useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
@@ -32,8 +33,6 @@ export function CreateAccountStep() {
     const isValid = await form.trigger("account");
     if (!isValid) return;
 
-    const [birthDate] = formValues.birthDate.toISOString().split("T");
-
     try {
       await signUp({
         account: {
@@ -43,7 +42,7 @@ export function CreateAccountStep() {
         profile: {
           name: formValues.account.name,
           activityLevel: formValues.activityLevel,
-          birthDate,
+          birthDate: formatDateToAPI(formValues.birthDate),
           gender: formValues.gender,
           goal: formValues.goal,
           height: Number(formValues.height),
