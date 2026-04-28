@@ -1,8 +1,8 @@
 import { AuthStackNavigationProps } from "@/app/navigation/AuthStack";
 import { useNavigation } from "@react-navigation/native";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { OnboardingContext } from ".";
-import { onboardingNavigation } from "../OnboardingStack";
+import { OnboardingStackParamList, onboardingNavigation } from "../OnboardingStack";
 import { ORDERED_STEPS } from "../steps";
 
 export function OnboardingProvider({
@@ -13,14 +13,19 @@ export function OnboardingProvider({
   const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
   const { goBack } = useNavigation<AuthStackNavigationProps>();
 
-  // TODO:
-  // useEffect(() => {
-  //   return onboardingNavigation.addListener("state", (event) => {
-  //     const { state } = event.data;
-  //     if (typeof state?.index !== "number") return;
-  //     setCurrentStepIndex(Math.max(state.index, 0));
-  //   });
-  // }, [onboardingNavigation]);
+  useEffect(() => {
+    const unsubscribe = onboardingNavigation.addListener("state", () => {
+      const route = onboardingNavigation.getCurrentRoute();
+      if (!route) return;
+
+      const index = ORDERED_STEPS.indexOf(
+        route.name as keyof OnboardingStackParamList
+      );
+      if (index !== -1) setCurrentStepIndex(index);
+    });
+
+    return unsubscribe;
+  }, []);
 
   const previousStep = useCallback(() => {
     if (!onboardingNavigation.canGoBack()) {

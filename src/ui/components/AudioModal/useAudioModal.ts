@@ -91,10 +91,20 @@ export function useAudioModal({ onClose, onCreate }: UseAudioModalParams) {
   const handleStopRecording = useCallback(async () => {
     await audioRecorder.stop();
     setAudioUri(audioRecorder.uri);
+    await setAudioModeAsync({
+      playsInSilentMode: true,
+      allowsRecording: false,
+      shouldRouteThroughEarpiece: false,
+    });
     setState("recorded");
   }, []);
 
   const handleTryAgain = async () => {
+    await setAudioModeAsync({
+      playsInSilentMode: true,
+      allowsRecording: true,
+      shouldRouteThroughEarpiece: false,
+    });
     setState("idle");
   };
 
