@@ -73,24 +73,22 @@ export function OptionButton({
   onPress,
 }: OptionButtonProps) {
   return (
-    <View style={styles.buttonWrapper}>
-      <Pressable
-        disabled={disabled}
-        onPress={onPress}
-        android_ripple={{ color: theme.colors["black/10"], foreground: true }}
-        style={({ pressed }) => [
-          styles.button,
-          pressed && Platform.OS === "ios" && { opacity: 0.5 },
-        ]}
-      >
-        <View style={styles.icon}>
-          <Icon color={theme.colors.black[700]} size={24} />
-        </View>
+    <Pressable
+      disabled={disabled}
+      onPress={onPress}
+      android_ripple={{ color: theme.colors["black/10"], foreground: true }}
+      style={({ pressed }) => [
+        styles.button,
+        pressed && Platform.OS === "ios" && { opacity: 0.5 },
+      ]}
+    >
+      <View style={styles.icon}>
+        <Icon color={theme.colors.black[700]} size={24} />
+      </View>
 
-        <AppText weight="semiBold" style={styles.buttonLabel}>
-          {label}
-        </AppText>
-      </Pressable>
-    </View>
+      <AppText weight="semiBold" style={styles.buttonLabel}>
+        {label}
+      </AppText>
+    </Pressable>
   );
 }

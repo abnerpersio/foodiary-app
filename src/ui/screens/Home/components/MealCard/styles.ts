@@ -6,16 +6,13 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     gap: 8,
   },
-  cardWrapper: {
-    borderRadius: 16,
-    overflow: "hidden",
-  },
   card: {
     borderRadius: 16,
     padding: 8,
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: theme.colors.gray[400],
+    overflow: "hidden",
   },
   cardHeader: {
     paddingHorizontal: 8,

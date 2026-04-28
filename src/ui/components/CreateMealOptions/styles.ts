@@ -6,12 +6,8 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 16,
   },
-  buttonWrapper: {
-    flex: 1,
-    borderRadius: 16,
-    overflow: "hidden",
-  },
   button: {
+    flex: 1,
     borderWidth: 1,
     borderColor: theme.colors.gray[300],
     borderStyle: "solid",
@@ -20,6 +16,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 16,
+    overflow: "hidden",
   },
   buttonLabel: {
     letterSpacing: -0.16,

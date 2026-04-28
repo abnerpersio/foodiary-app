@@ -18,6 +18,7 @@ type AudioPlayerProps = {
   onConfirm: () => void;
 };
 
+// TODO: listen audio from speakers and not earpiece
 export function AudioPlayer({
   audioUri,
   onTryAgain,

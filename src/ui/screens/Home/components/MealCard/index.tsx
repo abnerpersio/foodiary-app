@@ -2,6 +2,7 @@ import { AppStackNavigationProps } from "@/app/navigation/AppStack";
 import { SimplifiedMeal } from "@/app/types/Meal";
 import { AppText } from "@/ui/components/AppText";
 import { theme } from "@/ui/styles/theme";
+import { getFoodCaloriesSummary } from "@/ui/utils/food";
 import { useNavigation } from "@react-navigation/native";
 import { useMemo } from "react";
 import { Platform, Pressable, View } from "react-native";
@@ -23,16 +24,16 @@ export function MealCard({ meal }: MealCardProps) {
 
   const summary = useMemo(
     () =>
-      meal.foods.reduce(
+      (meal?.foods || []).reduce(
         (acc, food) => ({
-          calories: acc.calories + food.calories,
+          calories: acc.calories + getFoodCaloriesSummary(food).total,
           proteins: acc.proteins + food.proteins,
           carbohydrates: acc.carbohydrates + food.carbohydrates,
           fats: acc.fats + food.fats,
         }),
         { calories: 0, proteins: 0, carbohydrates: 0, fats: 0 },
       ),
-    [meal.foods],
+    [meal?.foods],
   );
 
   return (
@@ -41,75 +42,69 @@ export function MealCard({ meal }: MealCardProps) {
         {formatTime(meal.createdAt)}
       </AppText>
 
-      <View style={styles.cardWrapper}>
-        <Pressable
-          onPress={() => navigate("MealDetails", { mealId: meal.id })}
-          disabled={isLoading}
-          android_ripple={{ color: theme.colors["black/10"], foreground: true }}
-          style={({ pressed }) => [
-            styles.card,
-            pressed && Platform.OS === "ios" && { opacity: 0.5 },
-          ]}
-        >
-          <View style={styles.cardHeader}>
-            <View style={styles.icon}>
-              <AppText>{meal.icon}</AppText>
+      <Pressable
+        onPress={() => navigate("MealDetails", { mealId: meal.id })}
+        disabled={isLoading}
+        android_ripple={{ color: theme.colors["black/10"], foreground: true }}
+        style={({ pressed }) => [
+          styles.card,
+          pressed && Platform.OS === "ios" && { opacity: 0.5 },
+        ]}
+      >
+        <View style={styles.cardHeader}>
+          <View style={styles.icon}>
+            <AppText>{meal.icon}</AppText>
+          </View>
+
+          <View style={styles.mealTitle}>
+            <AppText color={theme.colors.gray[700]} size="sm" numberOfLines={1}>
+              {meal.name}
+            </AppText>
+
+            <AppText weight="medium" numberOfLines={1}>
+              {foods}
+            </AppText>
+          </View>
+        </View>
+
+        <View style={styles.cardBody}>
+          <View style={styles.mealStatRow}>
+            <View style={styles.mealStat}>
+              <AppText color={theme.colors.support.tomato} weight="medium">
+                {summary.calories}
+              </AppText>
+
+              <AppText color={theme.colors.gray[700]}>kcal</AppText>
             </View>
 
-            <View style={styles.mealTitle}>
-              <AppText
-                color={theme.colors.gray[700]}
-                size="sm"
-                numberOfLines={1}
-              >
-                {meal.name}
+            <View style={styles.mealStat}>
+              <AppText color={theme.colors.support.teal} weight="medium">
+                {summary.proteins}g
               </AppText>
 
-              <AppText weight="medium" numberOfLines={1}>
-                {foods}
-              </AppText>
+              <AppText color={theme.colors.gray[700]}>Proteínas</AppText>
             </View>
           </View>
 
-          <View style={styles.cardBody}>
-            <View style={styles.mealStatRow}>
-              <View style={styles.mealStat}>
-                <AppText color={theme.colors.support.tomato} weight="medium">
-                  {summary.calories}
-                </AppText>
+          <View style={styles.mealStatRow}>
+            <View style={styles.mealStat}>
+              <AppText color={theme.colors.support.yellow} weight="medium">
+                {summary.carbohydrates}g
+              </AppText>
 
-                <AppText color={theme.colors.gray[700]}>Kcal</AppText>
-              </View>
-
-              <View style={styles.mealStat}>
-                <AppText color={theme.colors.support.teal} weight="medium">
-                  {summary.proteins}g
-                </AppText>
-
-                <AppText color={theme.colors.gray[700]}>Proteínas</AppText>
-              </View>
+              <AppText color={theme.colors.gray[700]}>Carboídratos</AppText>
             </View>
 
-            <View style={styles.mealStatRow}>
-              <View style={styles.mealStat}>
-                <AppText color={theme.colors.support.yellow} weight="medium">
-                  {summary.carbohydrates}g
-                </AppText>
+            <View style={styles.mealStat}>
+              <AppText color={theme.colors.support.orange} weight="medium">
+                {summary.fats}g
+              </AppText>
 
-                <AppText color={theme.colors.gray[700]}>Carboídratos</AppText>
-              </View>
-
-              <View style={styles.mealStat}>
-                <AppText color={theme.colors.support.orange} weight="medium">
-                  {summary.fats}g
-                </AppText>
-
-                <AppText color={theme.colors.gray[700]}>Gorduras</AppText>
-              </View>
+              <AppText color={theme.colors.gray[700]}>Gorduras</AppText>
             </View>
           </View>
-        </Pressable>
-      </View>
+        </View>
+      </Pressable>
     </View>
   );
 }

@@ -1,5 +1,6 @@
 import { useAccount } from "@/app/hooks/queries/useAccount";
 import { GoalStats } from "@/ui/components/GoalStats";
+import { getFoodCaloriesSummary } from "@/ui/utils/food";
 import { useMemo } from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
 import { useHomeContext } from "../../context/useHome";
@@ -15,7 +16,7 @@ export function CurrentGoal({ style }: { style: StyleProp<ViewStyle> }) {
         .flatMap((meal) => meal.foods)
         .reduce(
           (acc, food) => ({
-            calories: acc.calories + food.calories,
+            calories: acc.calories + getFoodCaloriesSummary(food).total,
             proteins: acc.proteins + food.proteins,
             carbohydrates: acc.carbohydrates + food.carbohydrates,
             fats: acc.fats + food.fats,

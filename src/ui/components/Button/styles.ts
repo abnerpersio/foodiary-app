@@ -3,10 +3,6 @@ import { createVariants } from "@/ui/styles/utils/createVariants";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-  wrapper: {
-    borderRadius: 12,
-    overflow: "hidden",
-  },
   content: {
     flexDirection: "row",
     gap: 10,
@@ -21,6 +17,8 @@ export const buttonStyles = createVariants({
     disabled: "false",
   },
   base: {
+    borderRadius: 12,
+    overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
   },
