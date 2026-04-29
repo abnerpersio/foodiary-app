@@ -1,6 +1,7 @@
 import { useForceRender } from "@/app/hooks/app/useForceRender";
 import { useAccount } from "@/app/hooks/queries/useAccount";
 import { AuthTokensManager } from "@/app/lib/AuthTokensManager";
+import { LastSignInManager } from "@/app/lib/LastSignInManager";
 import { AuthService } from "@/app/services/AuthService";
 import { HttpService } from "@/app/services/HttpService";
 import { useQueryClient } from "@tanstack/react-query";
@@ -20,6 +21,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [signedUp, setSignedUp] = useState(false);
+
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [isGoogleLastUsed, setIsGoogleLastUsed] = useState(false);
 
   const { account, loadAccount } = useAccount({ enabled: false });
   const queryClient = useQueryClient();
@@ -90,10 +94,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signInWithGoogle = useCallback(
-    async (code: string, redirectUri: string) => {
-      const tokens = await AuthService.signInWithCode({ code, redirectUri });
-      await AuthTokensManager.save(tokens);
-      await setupAuth(tokens);
+    async ({ code, redirectUri }: { code: string; redirectUri: string }) => {
+      try {
+        setIsGoogleLoading(true);
+        const tokens = await AuthService.signInWithCode({ code, redirectUri });
+        await AuthTokensManager.save(tokens);
+        await setupAuth(tokens);
+        await LastSignInManager.save("google");
+      } finally {
+        setIsGoogleLoading(false);
+      }
     },
     [setupAuth],
   );
@@ -114,6 +124,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     load();
   }, [loadAccount]);
 
+  useLayoutEffect(() => {
+    async function load() {
+      const method = await LastSignInManager.load();
+      setIsGoogleLastUsed(method === "google");
+    }
+
+    load();
+  }, []);
+
   if (!isReady) {
     return;
   }
@@ -124,6 +143,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signedIn: isAuthenticated,
         signedUp,
         needsProfileSetup: isAuthenticated && !account,
+        isGoogleLoading,
+        isGoogleLastUsed,
         signIn,
         signUp,
         signOut,

@@ -4,11 +4,16 @@ import { createContext } from "react";
 type AuthContextValue = {
   signedIn: boolean;
   signedUp: boolean;
+  isGoogleLoading: boolean;
+  isGoogleLastUsed: boolean;
   needsProfileSetup: boolean;
   signIn: (params: AuthService.SignInParams) => Promise<void>;
   signUp: (params: AuthService.SignUpParams) => Promise<void>;
   signOut: () => Promise<void>;
-  signInWithGoogle: (code: string, redirectUri: string) => Promise<void>;
+  signInWithGoogle: (params: {
+    code: string;
+    redirectUri: string;
+  }) => Promise<void>;
 };
 
 export const AuthContext = createContext({} as AuthContextValue);

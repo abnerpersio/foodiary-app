@@ -1,18 +1,14 @@
 import { Env } from "@/app/config/env";
 import { useAuth } from "@/app/contexts/AuthContext/useAuth";
-import { LastSignInManager } from "@/app/lib/LastSignInManager";
 import * as AuthSession from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Alert } from "react-native";
 
 WebBrowser.maybeCompleteAuthSession();
 
 export function useGreetingsController() {
-  const { signInWithGoogle } = useAuth();
-
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-  const [isGoogleLastUsed, setIsGoogleLastUsed] = useState(false);
+  const { signInWithGoogle, isGoogleLoading, isGoogleLastUsed } = useAuth();
 
   const redirectUri = useMemo(
     () =>
@@ -40,32 +36,28 @@ export function useGreetingsController() {
     discovery,
   );
 
-  useEffect(() => {
-    async function load() {
-      const method = await LastSignInManager.load();
-      setIsGoogleLastUsed(method === "google");
-    }
+  const error = response?.type === "error" ? response.error : null;
 
-    load();
-  }, []);
+  useEffect(() => {
+    if (response?.type === "error") {
+      console.log(response.error);
+      Alert.alert("Erro", "Não foi possível entrar com Google.");
+    }
+  }, [error?.message]);
 
   useEffect(() => {
     async function setupAuth() {
       if (response?.type !== "success") return;
 
       try {
-        setIsGoogleLoading(true);
-        await signInWithGoogle(response.params.code, redirectUri);
-        await LastSignInManager.save("google");
+        await signInWithGoogle({ code: response.params.code, redirectUri });
       } catch {
         Alert.alert("Erro", "Não foi possível entrar com Google.");
-      } finally {
-        setIsGoogleLoading(false);
       }
     }
 
     setupAuth();
-  }, [response]);
+  }, [response?.type, signInWithGoogle]);
 
   return {
     googleAuthReady: !!request,
