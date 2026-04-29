@@ -24,6 +24,14 @@ export const styles = StyleSheet.create({
     marginTop: 24,
     padding: 20,
   },
+  googleButton: {
+    marginTop: 12,
+  },
+  googleButtonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
   signInContainer: {
     marginTop: 16,
     flexDirection: "row",

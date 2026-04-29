@@ -76,6 +76,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setSignedUp(true);
   }, []);
 
+  const signInWithGoogle = useCallback(
+    async (code: string, redirectUri: string) => {
+      const tokens = await AuthService.signInWithCode({ code, redirectUri });
+      await AuthTokensManager.save(tokens);
+      await setupAuth(tokens);
+    },
+    [setupAuth],
+  );
+
   useLayoutEffect(() => {
     async function load() {
       const tokens = await AuthTokensManager.load();
@@ -104,6 +113,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signIn,
         signUp,
         signOut,
+        signInWithGoogle,
       }}
     >
       {children}

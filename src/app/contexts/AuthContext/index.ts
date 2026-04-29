@@ -7,6 +7,7 @@ type AuthContextValue = {
   signIn: (params: AuthService.SignInParams) => Promise<void>;
   signUp: (params: AuthService.SignUpParams) => Promise<void>;
   signOut: () => Promise<void>;
+  signInWithGoogle: (code: string, redirectUri: string) => Promise<void>;
 };
 
 export const AuthContext = createContext({} as AuthContextValue);

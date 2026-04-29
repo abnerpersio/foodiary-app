@@ -4,6 +4,7 @@ import { AuthStackNavigationProps } from "@/app/navigation/AuthStack";
 import greetingsBg from "@/ui/assets/greetings-bg/image.jpg";
 import { AppText } from "@/ui/components/AppText";
 import { Button } from "@/ui/components/Button";
+import { GoogleIcon } from "@/ui/components/GoogleIcon";
 import { Logo } from "@/ui/components/Logo";
 import { SignInBottomSheet } from "@/ui/components/SignInBottomSheet";
 import { SignInBottomSheetRef } from "@/ui/components/SignInBottomSheet/types";
@@ -12,10 +13,13 @@ import { useNavigation } from "@react-navigation/native";
 import { useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
+import { useGreetingsController } from "./useGreetingsController";
 
 export function Greetings() {
   const signInBottomSheetRef = useRef<SignInBottomSheetRef>(null);
   const { navigate } = useNavigation<AuthStackNavigationProps>();
+  const { googleAuthReady, isGoogleLoading, promptGoogleAuth } =
+    useGreetingsController();
 
   return (
     <>
@@ -40,6 +44,19 @@ export function Greetings() {
             <View style={styles.ctaContent}>
               <Button onPress={() => navigate("Onboarding")}>
                 Criar conta
+              </Button>
+
+              <Button
+                variant="secondary"
+                isLoading={isGoogleLoading}
+                disabled={!googleAuthReady}
+                onPress={() => promptGoogleAuth()}
+                style={styles.googleButton}
+              >
+                <View style={styles.googleButtonContent}>
+                  <GoogleIcon size={20} />
+                  <AppText weight="medium">Continuar com Google</AppText>
+                </View>
               </Button>
 
               <View style={styles.signInContainer}>

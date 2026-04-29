@@ -2,6 +2,7 @@
   "expo": {
     "name": "foodiary-app",
     "slug": "foodiary-app",
+    "scheme": "foodiary",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -38,7 +39,8 @@
           "image": "./assets/splash-icon.png",
           "imageWidth": 200
         }
-      ]
+      ],
+      "expo-web-browser"
     ]
   }
 }

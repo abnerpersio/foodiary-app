@@ -16,11 +16,11 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export function App() {
-  const [isFontsLoaded] = useFonts([
+  const [isFontsLoaded] = useFonts({
     HostGrotesk_400Regular,
     HostGrotesk_500Medium,
     HostGrotesk_600SemiBold,
-  ]);
+  });
 
   if (!isFontsLoaded) {
     return null;
