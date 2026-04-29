@@ -4,12 +4,6 @@ import { ErrorResponse } from "@/app/types/Http";
 import { Button } from "@/ui/components/Button";
 import { FormGroup } from "@/ui/components/FormGroup";
 import { Input } from "@/ui/components/Input";
-import { theme } from "@/ui/styles/theme";
-import { formatDateToAPI } from "@/ui/utils/date";
-import { isAxiosError } from "axios";
-import { useRef } from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import { Alert, TextInput, View } from "react-native";
 import {
   Step,
   StepContent,
@@ -17,7 +11,13 @@ import {
   StepHeader,
   StepSubtitle,
   StepTitle,
-} from "../components/Step";
+} from "@/ui/components/Step";
+import { theme } from "@/ui/styles/theme";
+import { formatDateToAPI } from "@/ui/utils/date";
+import { isAxiosError } from "axios";
+import { useRef } from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { Alert, TextInput, View } from "react-native";
 import { OnboardingSchema } from "../schema";
 
 export function CreateAccountStep() {

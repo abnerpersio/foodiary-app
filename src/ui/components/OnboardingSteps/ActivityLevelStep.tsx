@@ -8,21 +8,21 @@ import {
   RadioGroupItemInfo,
   RadioGroupLabel,
 } from "@/ui/components/RadioGroup";
-import { ArrowRightIcon } from "lucide-react-native";
-import { Controller, useFormContext } from "react-hook-form";
 import {
   Step,
   StepContent,
   StepFooter,
   StepHeader,
   StepTitle,
-} from "../components/Step";
-import { useOnboardingContext } from "../context/useOnboardingContext";
-import { OnboardingSchema } from "../schema";
+} from "@/ui/components/Step";
+import { OnboardingBaseSchema } from "@/ui/utils/onboarding";
+import { ArrowRightIcon } from "lucide-react-native";
+import { Controller, useFormContext } from "react-hook-form";
+import { useOnboardingContext } from "../../screens/Onboarding/context/useOnboardingContext";
 
 export function ActivityLevelStep() {
   const { nextStep } = useOnboardingContext();
-  const form = useFormContext<OnboardingSchema>();
+  const form = useFormContext<OnboardingBaseSchema>();
 
   const handleNext = async () => {
     const isValid = await form.trigger("activityLevel");

@@ -1,4 +1,6 @@
+import { ActivityLevel } from "../types/ActivityLevel";
 import { Gender } from "../types/Gender";
+import { Goal } from "../types/Goal";
 import { HttpService } from "./HttpService";
 
 export class ProfileService extends HttpService {
@@ -6,6 +8,12 @@ export class ProfileService extends HttpService {
     params: ProfileService.UpdateProfileParams,
   ): Promise<void> {
     await this.client.put("/profile", params);
+  }
+
+  static async createProfile(
+    params: ProfileService.CreateProfileParams,
+  ): Promise<void> {
+    await this.client.post("/profile", params);
   }
 }
 
@@ -16,5 +24,15 @@ export namespace ProfileService {
     gender: Gender;
     weight: number;
     height: number;
+  };
+
+  export type CreateProfileParams = {
+    name: string;
+    birthDate: string;
+    height: number;
+    weight: number;
+    gender: Gender;
+    activityLevel: ActivityLevel;
+    goal: Goal;
   };
 }

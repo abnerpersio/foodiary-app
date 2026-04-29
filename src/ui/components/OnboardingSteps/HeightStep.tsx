@@ -1,9 +1,6 @@
 import { Button } from "@/ui/components/Button";
 import { FormGroup } from "@/ui/components/FormGroup";
 import { Input } from "@/ui/components/Input";
-import { formatDecimal } from "@/ui/utils/formatDecimal";
-import { ArrowRightIcon } from "lucide-react-native";
-import { Controller, useFormContext } from "react-hook-form";
 import {
   Step,
   StepContent,
@@ -11,45 +8,48 @@ import {
   StepHeader,
   StepSubtitle,
   StepTitle,
-} from "../components/Step";
-import { useOnboardingContext } from "../context/useOnboardingContext";
-import { OnboardingSchema } from "../schema";
+} from "@/ui/components/Step";
+import { formatDecimal } from "@/ui/utils/formatDecimal";
+import { OnboardingBaseSchema } from "@/ui/utils/onboarding";
+import { ArrowRightIcon } from "lucide-react-native";
+import { Controller, useFormContext } from "react-hook-form";
+import { useOnboardingContext } from "../../screens/Onboarding/context/useOnboardingContext";
 
-export function WeightStep() {
+export function HeightStep() {
   const { nextStep } = useOnboardingContext();
-  const form = useFormContext<OnboardingSchema>();
+  const form = useFormContext<OnboardingBaseSchema>();
 
   const handleNext = async () => {
-    const isValid = await form.trigger("weight");
+    const isValid = await form.trigger("height");
     if (isValid) nextStep();
   };
 
   return (
     <Step>
       <StepHeader>
-        <StepTitle>Qual é seu peso?</StepTitle>
+        <StepTitle>Qual é sua altura?</StepTitle>
         <StepSubtitle>Você pode inserir uma estimativa</StepSubtitle>
       </StepHeader>
 
       <StepContent position="center">
         <Controller
           control={form.control}
-          name="weight"
+          name="height"
           render={({ field, fieldState }) => (
             <FormGroup
-              label="Peso"
+              label="Altura"
               error={fieldState.error?.message}
               style={{ width: "100%" }}
             >
               <Input
-                placeholder="80"
+                placeholder="175"
                 keyboardType="numeric"
                 formatter={formatDecimal}
                 autoFocus
                 value={field.value}
                 onChangeText={(value) => {
                   field.onChange(value);
-                  form.trigger("weight");
+                  form.trigger("height");
                 }}
                 onBlur={field.onBlur}
               />

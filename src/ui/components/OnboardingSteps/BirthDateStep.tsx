@@ -1,14 +1,6 @@
 import { AppText } from "@/ui/components/AppText";
 import { Button } from "@/ui/components/Button";
 import { FormError } from "@/ui/components/FormGroup";
-import { theme } from "@/ui/styles/theme";
-import DateTimePicker, {
-  DateTimePickerEvent,
-} from "@react-native-community/datetimepicker";
-import { ArrowRightIcon } from "lucide-react-native";
-import { useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import { Platform, TouchableOpacity } from "react-native";
 import {
   Step,
   StepContent,
@@ -16,13 +8,21 @@ import {
   StepHeader,
   StepSubtitle,
   StepTitle,
-} from "../components/Step";
-import { useOnboardingContext } from "../context/useOnboardingContext";
-import { OnboardingSchema } from "../schema";
+} from "@/ui/components/Step";
+import { theme } from "@/ui/styles/theme";
+import { OnboardingBaseSchema } from "@/ui/utils/onboarding";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
+import { ArrowRightIcon } from "lucide-react-native";
+import { useState } from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { Platform, TouchableOpacity } from "react-native";
+import { useOnboardingContext } from "../../screens/Onboarding/context/useOnboardingContext";
 
 export function BirthDateStep() {
   const { nextStep } = useOnboardingContext();
-  const form = useFormContext<OnboardingSchema>();
+  const form = useFormContext<OnboardingBaseSchema>();
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(true);
 
   const handleNext = async () => {

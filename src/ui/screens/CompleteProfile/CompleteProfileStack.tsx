@@ -4,7 +4,6 @@ import { GenderStep } from "@/ui/components/OnboardingSteps/GenderStep";
 import { GoalStep } from "@/ui/components/OnboardingSteps/GoalStep";
 import { HeightStep } from "@/ui/components/OnboardingSteps/HeightStep";
 import { WeightStep } from "@/ui/components/OnboardingSteps/WeightStep";
-import { CreateAccountStep } from "@/ui/screens/Onboarding/steps/CreateAccountStep";
 import {
   createNavigationContainerRef,
   NavigationContainer,
@@ -16,37 +15,38 @@ import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from "@react-navigation/native-stack";
+import { NameStep } from "./steps/NameStep";
 
-export type OnboardingStackParamList = {
+export type CompleteProfileStackParamList = {
   Goal: undefined;
   Gender: undefined;
   BirthDate: undefined;
-  Weight: undefined;
   Height: undefined;
+  Weight: undefined;
   ActivityLevel: undefined;
-  CreateAccount: undefined;
+  Name: undefined;
 };
 
-export type OnboardingStackNavigationProps =
-  NativeStackNavigationProp<OnboardingStackParamList>;
+export type CompleteProfileStackNavigationProps =
+  NativeStackNavigationProp<CompleteProfileStackParamList>;
 
-export type OnboardingStackScreenProps<
-  TRouteName extends keyof OnboardingStackParamList,
-> = NativeStackScreenProps<OnboardingStackParamList, TRouteName>;
+export type CompleteProfileStackScreenProps<
+  TRouteName extends keyof CompleteProfileStackParamList,
+> = NativeStackScreenProps<CompleteProfileStackParamList, TRouteName>;
 
-export type OnboardingStackRouteProps<
-  TRouteName extends keyof OnboardingStackParamList,
-> = RouteProp<OnboardingStackParamList, TRouteName>;
+export type CompleteProfileStackRouteProps<
+  TRouteName extends keyof CompleteProfileStackParamList,
+> = RouteProp<CompleteProfileStackParamList, TRouteName>;
 
-const Stack = createNativeStackNavigator<OnboardingStackParamList>();
+const Stack = createNativeStackNavigator<CompleteProfileStackParamList>();
 
-export const onboardingNavigation =
-  createNavigationContainerRef<OnboardingStackParamList>();
+export const completeProfileNavigation =
+  createNavigationContainerRef<CompleteProfileStackParamList>();
 
-export function OnboardingStack() {
+export function CompleteProfileStack() {
   return (
     <NavigationIndependentTree>
-      <NavigationContainer ref={onboardingNavigation}>
+      <NavigationContainer ref={completeProfileNavigation}>
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
           initialRouteName="Goal"
@@ -54,10 +54,10 @@ export function OnboardingStack() {
           <Stack.Screen name="Goal" component={GoalStep} />
           <Stack.Screen name="Gender" component={GenderStep} />
           <Stack.Screen name="BirthDate" component={BirthDateStep} />
-          <Stack.Screen name="Weight" component={WeightStep} />
           <Stack.Screen name="Height" component={HeightStep} />
+          <Stack.Screen name="Weight" component={WeightStep} />
           <Stack.Screen name="ActivityLevel" component={ActivityLevelStep} />
-          <Stack.Screen name="CreateAccount" component={CreateAccountStep} />
+          <Stack.Screen name="Name" component={NameStep} />
         </Stack.Navigator>
       </NavigationContainer>
     </NavigationIndependentTree>

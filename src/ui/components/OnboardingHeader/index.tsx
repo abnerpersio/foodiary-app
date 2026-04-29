@@ -5,27 +5,35 @@ import { ChevronLeftIcon } from "lucide-react-native";
 import { useEffect, useRef } from "react";
 import { Animated, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useOnboardingContext } from "../../context/useOnboardingContext";
-import { TOTAL_STEPS } from "../../steps";
 import { styles } from "./styles";
 
-export function OnboardingHeader() {
+type OnboardingHeaderProps = {
+  currentStepIndex: number;
+  totalSteps: number;
+  onBack: () => void;
+  isLastStep: boolean;
+};
+
+export function OnboardingHeader({
+  currentStepIndex,
+  totalSteps,
+  onBack,
+  isLastStep,
+}: OnboardingHeaderProps) {
   const { top } = useSafeAreaInsets();
-  const { currentStepIndex, previousStep } = useOnboardingContext();
   const isKeyboardVisible = useIsKeyboardVisible();
 
   const widthAnimation = useRef(new Animated.Value(0));
 
   useEffect(() => {
     Animated.timing(widthAnimation.current, {
-      toValue: (currentStepIndex + 1) * (100 / TOTAL_STEPS),
+      toValue: (currentStepIndex + 1) * (100 / totalSteps),
       duration: 300,
       useNativeDriver: false,
     }).start();
-  }, [currentStepIndex]);
+  }, [currentStepIndex, totalSteps]);
 
-  const shouldHideHeader =
-    isKeyboardVisible && currentStepIndex === TOTAL_STEPS - 1;
+  const shouldHideHeader = isKeyboardVisible && isLastStep;
 
   return (
     <View style={{ paddingTop: top, backgroundColor: theme.colors.white }}>
@@ -35,7 +43,7 @@ export function OnboardingHeader() {
           shouldHideHeader && { height: 0, display: "none" },
         ]}
       >
-        <Button size="icon" variant="ghost" onPress={previousStep}>
+        <Button size="icon" variant="ghost" onPress={onBack}>
           <ChevronLeftIcon size={20} color={theme.colors.black[700]} />
         </Button>
 

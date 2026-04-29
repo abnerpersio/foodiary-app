@@ -3,30 +3,25 @@ import { theme } from "@/ui/styles/theme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { KeyboardAvoidingView, Platform } from "react-native";
-import { OnboardingStack } from "./OnboardingStack";
-import { OnboardingProvider } from "./context/OnboardingProvider";
-import { useOnboardingContext } from "./context/useOnboardingContext";
-import { onboardingSchema } from "./schema";
+import { CompleteProfileStack } from "./CompleteProfileStack";
+import { CompleteProfileProvider } from "./context/CompleteProfileProvider";
+import { useCompleteProfileContext } from "./context/useCompleteProfileContext";
+import { completeProfileSchema, CompleteProfileSchema } from "./schema";
 import { TOTAL_STEPS } from "./steps";
 
-export function Onboarding() {
-  const form = useForm({
-    resolver: zodResolver(onboardingSchema),
+export function CompleteProfile() {
+  const form = useForm<CompleteProfileSchema>({
+    resolver: zodResolver(completeProfileSchema),
     defaultValues: {
       birthDate: new Date(),
       height: "",
       weight: "",
-      account: {
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      },
+      name: "",
     },
   });
 
   return (
-    <OnboardingProvider>
+    <CompleteProfileProvider>
       <FormProvider {...form}>
         <Header />
 
@@ -35,15 +30,15 @@ export function Onboarding() {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           keyboardVerticalOffset={16}
         >
-          <OnboardingStack />
+          <CompleteProfileStack />
         </KeyboardAvoidingView>
       </FormProvider>
-    </OnboardingProvider>
+    </CompleteProfileProvider>
   );
 }
 
-export function Header() {
-  const { currentStepIndex, previousStep } = useOnboardingContext();
+function Header() {
+  const { currentStepIndex, previousStep } = useCompleteProfileContext();
 
   return (
     <OnboardingHeader

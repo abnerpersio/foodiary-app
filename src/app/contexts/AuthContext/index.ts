@@ -4,6 +4,7 @@ import { createContext } from "react";
 type AuthContextValue = {
   signedIn: boolean;
   signedUp: boolean;
+  needsProfileSetup: boolean;
   signIn: (params: AuthService.SignInParams) => Promise<void>;
   signUp: (params: AuthService.SignUpParams) => Promise<void>;
   signOut: () => Promise<void>;

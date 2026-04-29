@@ -1,16 +1,7 @@
-import { ActivityLevel } from "@/app/types/ActivityLevel";
-import { Gender } from "@/app/types/Gender";
-import { Goal } from "@/app/types/Goal";
-import { birthDateSchema } from "@/ui/utils/birthDate";
+import { onboradingBaseSchema } from "@/ui/utils/onboarding";
 import z from "zod";
 
-export const onboardingSchema = z.object({
-  goal: z.enum(Goal),
-  gender: z.enum(Gender),
-  birthDate: birthDateSchema,
-  height: z.string().min(1, "Informe a sua altura"),
-  weight: z.string().min(1, "Informe o seu peso"),
-  activityLevel: z.enum(ActivityLevel),
+export const onboardingSchema = onboradingBaseSchema.extend({
   account: z
     .object({
       name: z.string().min(1, "Informe seu nome"),

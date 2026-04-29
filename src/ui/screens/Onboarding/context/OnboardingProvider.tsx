@@ -2,7 +2,10 @@ import { AuthStackNavigationProps } from "@/app/navigation/AuthStack";
 import { useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import { OnboardingContext } from ".";
-import { OnboardingStackParamList, onboardingNavigation } from "../OnboardingStack";
+import {
+  OnboardingStackParamList,
+  onboardingNavigation,
+} from "../OnboardingStack";
 import { ORDERED_STEPS } from "../steps";
 
 export function OnboardingProvider({
@@ -19,7 +22,7 @@ export function OnboardingProvider({
       if (!route) return;
 
       const index = ORDERED_STEPS.indexOf(
-        route.name as keyof OnboardingStackParamList
+        route.name as keyof OnboardingStackParamList,
       );
       if (index !== -1) setCurrentStepIndex(index);
     });

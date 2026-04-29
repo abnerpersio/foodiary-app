@@ -4,6 +4,7 @@ import { AuthTokensManager } from "@/app/lib/AuthTokensManager";
 import { AuthService } from "@/app/services/AuthService";
 import { HttpService } from "@/app/services/HttpService";
 import { useQueryClient } from "@tanstack/react-query";
+import { isAxiosError } from "axios";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useLayoutEffect, useState } from "react";
 import { AuthContext } from ".";
@@ -17,6 +18,7 @@ type SetupAuthParams = {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [signedUp, setSignedUp] = useState(false);
 
   const { account, loadAccount } = useAccount({ enabled: false });
@@ -28,6 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     HttpService.removeAccessToken();
     HttpService.removeRefreshTokenHandler();
 
+    setIsAuthenticated(false);
     queryClient.clear();
     forceRender();
 
@@ -55,7 +58,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       });
 
-      await loadAccount();
+      const result = await loadAccount();
+      setIsAuthenticated(true);
+
+      if (result.isError) {
+        const isProfileMissing =
+          isAxiosError(result.error) && result.error.response?.status === 404;
+
+        if (!isProfileMissing) {
+          await signOut();
+        }
+      }
 
       await SplashScreen.hideAsync();
       setIsReady(true);
@@ -108,8 +121,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <AuthContext.Provider
       value={{
-        signedIn: !!account,
+        signedIn: isAuthenticated,
         signedUp,
+        needsProfileSetup: isAuthenticated && !account,
         signIn,
         signUp,
         signOut,
