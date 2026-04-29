@@ -18,7 +18,7 @@ import { useGreetingsController } from "./useGreetingsController";
 export function Greetings() {
   const signInBottomSheetRef = useRef<SignInBottomSheetRef>(null);
   const { navigate } = useNavigation<AuthStackNavigationProps>();
-  const { googleAuthReady, isGoogleLoading, promptGoogleAuth } =
+  const { googleAuthReady, isGoogleLoading, isGoogleLastUsed, promptGoogleAuth } =
     useGreetingsController();
 
   return (
@@ -46,18 +46,28 @@ export function Greetings() {
                 Criar conta
               </Button>
 
-              <Button
-                variant="secondary"
-                isLoading={isGoogleLoading}
-                disabled={!googleAuthReady}
-                onPress={() => promptGoogleAuth()}
-                style={styles.googleButton}
-              >
-                <View style={styles.googleButtonContent}>
-                  <GoogleIcon size={20} />
-                  <AppText weight="medium">Continuar com Google</AppText>
-                </View>
-              </Button>
+              <View style={styles.googleButtonWrapper}>
+                <Button
+                  variant="secondary"
+                  isLoading={isGoogleLoading}
+                  disabled={!googleAuthReady}
+                  onPress={() => promptGoogleAuth()}
+                  style={styles.googleButton}
+                >
+                  <View style={styles.googleButtonContent}>
+                    <GoogleIcon size={20} />
+                    <AppText weight="medium">Continuar com Google</AppText>
+                  </View>
+                </Button>
+
+                {isGoogleLastUsed && (
+                  <View style={styles.lastUsedBadge}>
+                    <AppText size="xs" weight="semiBold" color={theme.colors.white}>
+                      Último acesso
+                    </AppText>
+                  </View>
+                )}
+              </View>
 
               <View style={styles.signInContainer}>
                 <AppText color={theme.colors.white}>Já tem uma conta?</AppText>

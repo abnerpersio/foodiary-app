@@ -4,7 +4,6 @@ import { Meal } from "@/app/types/Meal";
 import { AppText } from "@/ui/components/AppText";
 import { Button } from "@/ui/components/Button";
 import { theme } from "@/ui/styles/theme";
-import { getFoodCaloriesSummary } from "@/ui/utils/food";
 import { useNavigation } from "@react-navigation/native";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
@@ -28,22 +27,18 @@ export function Header({ meal, isLoading }: HeaderProps) {
   const summary = useMemo(
     () =>
       (meal?.foods || []).reduce(
-        (acc, food) => {
-          const calories = getFoodCaloriesSummary(food);
-
-          return {
-            proteins: acc.proteins + food.proteins,
-            carbohydrates: acc.carbohydrates + food.carbohydrates,
-            fats: acc.fats + food.fats,
-            calories: {
-              proteins: acc.calories.proteins + calories.proteins,
-              carbohydrates:
-                acc.calories.carbohydrates + calories.carbohydrates,
-              fats: acc.calories.fats + calories.fats,
-              total: acc.calories.total + calories.total,
-            },
-          };
-        },
+        (acc, food) => ({
+          proteins: acc.proteins + food.proteins,
+          carbohydrates: acc.carbohydrates + food.carbohydrates,
+          fats: acc.fats + food.fats,
+          calories: {
+            proteins: acc.calories.proteins + food.calories.proteins,
+            carbohydrates:
+              acc.calories.carbohydrates + food.calories.carbohydrates,
+            fats: acc.calories.fats + food.calories.fats,
+            total: acc.calories.total + food.calories.total,
+          },
+        }),
         {
           calories: {
             proteins: 0,

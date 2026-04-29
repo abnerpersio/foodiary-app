@@ -6,10 +6,15 @@ export type SimplifiedMeal = {
   foods: {
     name: string;
     quantity: string;
-    calories: number;
     proteins: number;
     carbohydrates: number;
     fats: number;
+    calories: {
+      total: number;
+      proteins: number;
+      carbohydrates: number;
+      fats: number;
+    };
   }[];
 };
 
@@ -44,5 +49,11 @@ export namespace Meal {
     proteins: number;
     carbohydrates: number;
     fats: number;
+    calories: {
+      total: number;
+      proteins: number;
+      carbohydrates: number;
+      fats: number;
+    };
   };
 }

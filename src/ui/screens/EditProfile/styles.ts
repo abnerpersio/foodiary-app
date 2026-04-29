@@ -15,11 +15,22 @@ export const styles = StyleSheet.create({
     paddingBottom: 32,
     gap: 24,
   },
-  avatar: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+  avatarContainer: {
+    width: 110,
+    height: 110,
+    borderRadius: 55,
     alignSelf: "center",
+    overflow: "hidden",
+  },
+  avatar: {
+    width: 110,
+    height: 110,
+  },
+  avatarOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.25)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   footer: {
     paddingHorizontal: 20,

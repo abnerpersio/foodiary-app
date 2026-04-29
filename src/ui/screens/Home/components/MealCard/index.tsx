@@ -2,7 +2,6 @@ import { AppStackNavigationProps } from "@/app/navigation/AppStack";
 import { SimplifiedMeal } from "@/app/types/Meal";
 import { AppText } from "@/ui/components/AppText";
 import { theme } from "@/ui/styles/theme";
-import { getFoodCaloriesSummary } from "@/ui/utils/food";
 import { useNavigation } from "@react-navigation/native";
 import { useMemo } from "react";
 import { Platform, Pressable, View } from "react-native";
@@ -26,7 +25,7 @@ export function MealCard({ meal }: MealCardProps) {
     () =>
       (meal?.foods || []).reduce(
         (acc, food) => ({
-          calories: acc.calories + getFoodCaloriesSummary(food).total,
+          calories: acc.calories + food.calories.total,
           proteins: acc.proteins + food.proteins,
           carbohydrates: acc.carbohydrates + food.carbohydrates,
           fats: acc.fats + food.fats,

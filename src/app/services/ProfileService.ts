@@ -15,6 +15,23 @@ export class ProfileService extends HttpService {
   ): Promise<void> {
     await this.client.post("/profile", params);
   }
+
+  static async uploadPicture(params: ProfileService.UploadPictureParams) {
+    const { data } =
+      await this.client.post<ProfileService.UploadPictureHttpResponse>(
+        "/profile/picture",
+        params,
+      );
+
+    await this.uploadPresignedPOST({
+      uploadSignature: data.uploadSignature,
+      file: {
+        name: params.file.name,
+        type: params.file.type,
+        uri: params.file.uri,
+      },
+    });
+  }
 }
 
 export namespace ProfileService {
@@ -34,5 +51,18 @@ export namespace ProfileService {
     gender: Gender;
     activityLevel: ActivityLevel;
     goal: Goal;
+  };
+
+  export type UploadPictureParams = {
+    file: {
+      type: "image/jpeg" | "image/png";
+      size: number;
+      uri: string;
+      name: string;
+    };
+  };
+
+  export type UploadPictureHttpResponse = {
+    uploadSignature: string;
   };
 }

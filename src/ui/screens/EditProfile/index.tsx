@@ -1,5 +1,7 @@
 import { useAuth } from "@/app/contexts/AuthContext/useAuth";
+import { useAccount } from "@/app/hooks/queries/useAccount";
 import { Gender } from "@/app/types/Gender";
+import placeholderAvatar from "@/ui/assets/avatar/image.jpg";
 import { AppHeader } from "@/ui/components/AppHeader";
 import { Button } from "@/ui/components/Button";
 import { DateInput } from "@/ui/components/DateInput";
@@ -13,23 +15,35 @@ import {
 } from "@/ui/components/RadioGroup";
 import { theme } from "@/ui/styles/theme";
 import { formatDecimal } from "@/ui/utils/formatDecimal";
-import { LogOutIcon } from "lucide-react-native";
+import { CameraIcon, LogOutIcon } from "lucide-react-native";
 import { Controller } from "react-hook-form";
 import {
+  ActivityIndicator,
   Image,
   KeyboardAvoidingView,
   Platform,
+  RefreshControl,
   ScrollView,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { styles } from "./styles";
+import { useEditPicture } from "./useEditPicture";
 import { useEditProfile } from "./useEditProfile";
 
 export function EditProfile() {
   const { top, bottom } = useSafeAreaInsets();
   const { signOut } = useAuth();
   const { form, handleSubmit } = useEditProfile();
+
+  const { isRefreshing, handleRefresh } = useAccount();
+
+  const {
+    pictureUri,
+    isLoading: isUploadingPicture,
+    handleUpdatePicture,
+  } = useEditPicture();
 
   return (
     <View style={[styles.container, { paddingTop: Math.max(top, 16) }]}>
@@ -46,12 +60,48 @@ export function EditProfile() {
           }
         />
 
-        <ScrollView style={styles.content} keyboardShouldPersistTaps="handled">
-          <View style={styles.form}>
-            <Image
-              style={styles.avatar}
-              source={{ uri: "https://github.com/abnerpersio.png" }}
+        <ScrollView
+          style={styles.content}
+          keyboardShouldPersistTaps="handled"
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={handleRefresh}
+              tintColor={theme.colors.lime[900]}
+              colors={[theme.colors.lime[700]]}
             />
+          }
+        >
+          <View style={styles.form}>
+            <TouchableOpacity
+              style={styles.avatarContainer}
+              onPress={handleUpdatePicture}
+              disabled={isUploadingPicture}
+              activeOpacity={0.8}
+            >
+              <Image
+                style={styles.avatar}
+                source={
+                  pictureUri
+                    ? [{ uri: pictureUri }, placeholderAvatar]
+                    : placeholderAvatar
+                }
+              />
+
+              <View style={styles.avatarOverlay}>
+                {isUploadingPicture && (
+                  <ActivityIndicator size="small" color={theme.colors.white} />
+                )}
+
+                {!isUploadingPicture && (
+                  <CameraIcon
+                    size={20}
+                    opacity={0.8}
+                    color={theme.colors.white}
+                  />
+                )}
+              </View>
+            </TouchableOpacity>
 
             <Controller
               control={form.control}

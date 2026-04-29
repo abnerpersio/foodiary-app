@@ -26,6 +26,7 @@ export namespace AccountService {
       height: number;
       weight: number;
       goal: Goal;
+      profileImage: string | null;
     };
     goal: {
       calories: number;
@@ -43,6 +44,7 @@ export namespace AccountService {
       height: number;
       weight: number;
       goal: Goal;
+      profileImage: string | null;
     };
     goal: {
       calories: number;

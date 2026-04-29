@@ -1,3 +1,4 @@
+import { theme } from "@/ui/styles/theme";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
@@ -24,8 +25,20 @@ export const styles = StyleSheet.create({
     marginTop: 24,
     padding: 20,
   },
-  googleButton: {
+  googleButtonWrapper: {
     marginTop: 12,
+  },
+  googleButton: {
+    width: "100%",
+  },
+  lastUsedBadge: {
+    position: "absolute",
+    top: -8,
+    right: 8,
+    backgroundColor: theme.colors.lime[700],
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 999,
   },
   googleButtonContent: {
     flexDirection: "row",

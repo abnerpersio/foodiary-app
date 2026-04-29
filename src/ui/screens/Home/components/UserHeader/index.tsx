@@ -1,5 +1,6 @@
 import { useAccount } from "@/app/hooks/queries/useAccount";
 import { AppStackNavigationProps } from "@/app/navigation/AppStack";
+import placeholderAvatar from "@/ui/assets/avatar/image.jpg";
 import { AppText } from "@/ui/components/AppText";
 import { Button } from "@/ui/components/Button";
 import { theme } from "@/ui/styles/theme";
@@ -26,7 +27,11 @@ export function UserHeader({ style }: { style?: StyleProp<ViewStyle> }) {
       >
         <Image
           style={styles.avatar}
-          source={{ uri: "https://github.com/abnerpersio.png" }}
+          source={
+            account?.profile.profileImage
+              ? [{ uri: account.profile.profileImage }, placeholderAvatar]
+              : placeholderAvatar
+          }
         />
 
         <View style={styles.greetings}>
