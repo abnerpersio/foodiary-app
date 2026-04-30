@@ -29,6 +29,10 @@ export class MealService extends HttpService {
     };
   }
 
+  static async deleteMeal(id: string): Promise<void> {
+    await this.client.delete(`/meals/${id}`);
+  }
+
   static async createMeal(
     params: MealService.CreateMealParams,
   ): Promise<MealService.CreateMealResponse> {

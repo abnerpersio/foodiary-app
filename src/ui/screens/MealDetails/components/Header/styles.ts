@@ -20,6 +20,10 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: "hidden",
   },
+  imageOverlayActions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   content: {
     flexDirection: "row",
     alignItems: "center",

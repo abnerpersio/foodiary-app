@@ -7,7 +7,7 @@ import { theme } from "@/ui/styles/theme";
 import { useNavigation } from "@react-navigation/native";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
-import { ChevronLeftIcon } from "lucide-react-native";
+import { ChevronLeftIcon, Trash2Icon } from "lucide-react-native";
 import { Skeleton } from "moti/skeleton";
 import { useMemo } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -16,9 +16,11 @@ import { styles } from "./styles";
 type HeaderProps = {
   meal: Meal | undefined;
   isLoading: boolean;
+  onDelete: () => void;
+  isDeleting: boolean;
 };
 
-export function Header({ meal, isLoading }: HeaderProps) {
+export function Header({ meal, isLoading, onDelete, isDeleting }: HeaderProps) {
   const { top } = useSafeAreaInsets();
   const { goBack } = useNavigation();
 
@@ -88,11 +90,24 @@ export function Header({ meal, isLoading }: HeaderProps) {
               start={{ x: 0, y: 0.5 }}
               end={{ x: 0, y: 1 }}
             >
-              <BlurView style={styles.blurContainer}>
-                <Button onPress={goBack} size="icon" variant="ghost">
-                  <ChevronLeftIcon size={20} color={theme.colors.white} />
-                </Button>
-              </BlurView>
+              <View style={styles.imageOverlayActions}>
+                <BlurView style={styles.blurContainer}>
+                  <Button onPress={goBack} size="icon" variant="ghost">
+                    <ChevronLeftIcon size={20} color={theme.colors.white} />
+                  </Button>
+                </BlurView>
+
+                <BlurView style={styles.blurContainer}>
+                  <Button
+                    onPress={onDelete}
+                    size="icon"
+                    variant="ghost"
+                    disabled={isDeleting}
+                  >
+                    <Trash2Icon size={20} color={theme.colors.white} />
+                  </Button>
+                </BlurView>
+              </View>
             </LinearGradient>
           </ImageBackground>
         )}
@@ -118,6 +133,17 @@ export function Header({ meal, isLoading }: HeaderProps) {
             <AppText weight="medium" color={theme.colors.gray[300]}>
               Refeição
             </AppText>
+
+            {!isImageInput && (
+              <Button
+                onPress={onDelete}
+                size="icon"
+                variant="ghost"
+                disabled={isDeleting}
+              >
+                <Trash2Icon size={20} color={theme.colors.white} />
+              </Button>
+            )}
           </View>
 
           <View style={styles.caloriesContainer}>
@@ -136,36 +162,54 @@ export function Header({ meal, isLoading }: HeaderProps) {
 
       <View style={styles.macrosContainer}>
         <View style={styles.macro}>
-          <AppText color={theme.colors.gray[700]}>Proteínas</AppText>
+          <AppText color={theme.colors.gray[700]} align="center">
+            Proteínas
+          </AppText>
 
           <Skeleton width={96} height={24} colorMode="light">
             {isLoading ? null : (
-              <AppText weight="medium" color={theme.colors.support.teal}>
-                {summary.proteins} ({percentages.proteins}%)
+              <AppText
+                weight="medium"
+                color={theme.colors.support.teal}
+                align="center"
+              >
+                {summary.proteins}g ({percentages.proteins}%)
               </AppText>
             )}
           </Skeleton>
         </View>
 
         <View style={styles.macro}>
-          <AppText color={theme.colors.gray[700]}>Carboídratos</AppText>
+          <AppText color={theme.colors.gray[700]} align="center">
+            Carboídratos
+          </AppText>
 
           <Skeleton width={96} height={24} colorMode="light">
             {isLoading ? null : (
-              <AppText weight="medium" color={theme.colors.support.yellow}>
-                {summary.carbohydrates} ({percentages.carbohydrates}%)
+              <AppText
+                weight="medium"
+                color={theme.colors.support.yellow}
+                align="center"
+              >
+                {summary.carbohydrates}g ({percentages.carbohydrates}%)
               </AppText>
             )}
           </Skeleton>
         </View>
 
         <View style={styles.macro}>
-          <AppText color={theme.colors.gray[700]}>Gorduras</AppText>
+          <AppText color={theme.colors.gray[700]} align="center">
+            Gorduras
+          </AppText>
 
           <Skeleton width={96} height={24} colorMode="light">
             {isLoading ? null : (
-              <AppText weight="medium" color={theme.colors.support.orange}>
-                {summary.fats} ({percentages.fats}%)
+              <AppText
+                weight="medium"
+                color={theme.colors.support.orange}
+                align="center"
+              >
+                {summary.fats}g ({percentages.fats}%)
               </AppText>
             )}
           </Skeleton>

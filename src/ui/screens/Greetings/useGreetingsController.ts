@@ -40,17 +40,15 @@ export function useGreetingsController() {
 
   const error = response?.type === "error" ? response.error : null;
   const code = response?.type === "success" ? response.params.code : null;
-  console.log("response", response);
 
   useEffect(() => {
     if (response?.type === "error") {
-      console.log(response.error);
+      console.error(error);
       Alert.alert("Erro", "Não foi possível entrar com Google.");
     }
   }, [error?.message]);
 
   useEffect(() => {
-    console.log("code", code);
     async function setupAuth() {
       if (response?.type !== "success") return;
 
@@ -61,7 +59,7 @@ export function useGreetingsController() {
           codeVerifier: request!.codeVerifier!,
         });
       } catch (error) {
-        console.log("error", error);
+        console.error(error);
         Alert.alert("Erro", "Não foi possível entrar com Google.");
       }
     }
