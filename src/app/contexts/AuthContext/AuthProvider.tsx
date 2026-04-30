@@ -94,10 +94,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signInWithGoogle = useCallback(
-    async ({ code, redirectUri }: { code: string; redirectUri: string }) => {
+    async ({
+      code,
+      redirectUri,
+      codeVerifier,
+    }: {
+      code: string;
+      redirectUri: string;
+      codeVerifier: string;
+    }) => {
       try {
         setIsGoogleLoading(true);
-        const tokens = await AuthService.signInWithCode({ code, redirectUri });
+        const tokens = await AuthService.signInWithCode({
+          code,
+          redirectUri,
+          codeVerifier,
+        });
         await AuthTokensManager.save(tokens);
         await setupAuth(tokens);
         await LastSignInManager.save("google");

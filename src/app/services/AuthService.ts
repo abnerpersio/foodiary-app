@@ -31,7 +31,13 @@ export class AuthService extends HttpService {
   static async signInWithCode(params: AuthService.SignInWithCodeParams) {
     const { data } = await this.client.get<AuthService.SignInResponse>(
       "/auth/code",
-      { params: { code: params.code, redirect_uri: params.redirectUri } },
+      {
+        params: {
+          code: params.code,
+          redirect_uri: params.redirectUri,
+          code_verifier: params.codeVerifier,
+        },
+      },
     );
     return data;
   }
@@ -81,5 +87,6 @@ export namespace AuthService {
   export type SignInWithCodeParams = {
     code: string;
     redirectUri: string;
+    codeVerifier: string;
   };
 }

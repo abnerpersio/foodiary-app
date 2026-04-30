@@ -1,11 +1,11 @@
 import { OnboardingContext } from "@/ui/screens/Onboarding/context";
 import { useCallback, useEffect, useState } from "react";
+import { CompleteProfileContext } from ".";
 import {
   CompleteProfileStackParamList,
   completeProfileNavigation,
 } from "../CompleteProfileStack";
 import { ORDERED_STEPS } from "../steps";
-import { CompleteProfileContext } from ".";
 
 export function CompleteProfileProvider({
   children,
@@ -47,7 +47,6 @@ export function CompleteProfileProvider({
 
   return (
     <CompleteProfileContext.Provider value={contextValue}>
-      {/* Provide OnboardingContext so shared step components (GoalStep, GenderStep, etc.) work */}
       <OnboardingContext.Provider value={contextValue}>
         {children}
       </OnboardingContext.Provider>

@@ -18,8 +18,12 @@ import { useGreetingsController } from "./useGreetingsController";
 export function Greetings() {
   const signInBottomSheetRef = useRef<SignInBottomSheetRef>(null);
   const { navigate } = useNavigation<AuthStackNavigationProps>();
-  const { googleAuthReady, isGoogleLoading, isGoogleLastUsed, promptGoogleAuth } =
-    useGreetingsController();
+  const {
+    googleAuthReady,
+    isGoogleLoading,
+    isGoogleLastUsed,
+    promptGoogleAuth,
+  } = useGreetingsController();
 
   return (
     <>
@@ -42,7 +46,10 @@ export function Greetings() {
             </AppText>
 
             <View style={styles.ctaContent}>
-              <Button onPress={() => navigate("Onboarding")}>
+              <Button
+                disabled={isGoogleLoading}
+                onPress={() => navigate("Onboarding")}
+              >
                 Criar conta
               </Button>
 
@@ -62,7 +69,11 @@ export function Greetings() {
 
                 {isGoogleLastUsed && (
                   <View style={styles.lastUsedBadge}>
-                    <AppText size="xs" weight="semiBold" color={theme.colors.white}>
+                    <AppText
+                      size="xs"
+                      weight="semiBold"
+                      color={theme.colors.white}
+                    >
                       Último acesso
                     </AppText>
                   </View>
@@ -73,6 +84,7 @@ export function Greetings() {
                 <AppText color={theme.colors.white}>Já tem uma conta?</AppText>
 
                 <TouchableOpacity
+                  disabled={isGoogleLoading}
                   onPress={() => signInBottomSheetRef.current?.open()}
                 >
                   <AppText color={theme.colors.lime[500]}>

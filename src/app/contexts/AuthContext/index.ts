@@ -13,6 +13,7 @@ type AuthContextValue = {
   signInWithGoogle: (params: {
     code: string;
     redirectUri: string;
+    codeVerifier: string;
   }) => Promise<void>;
 };
 

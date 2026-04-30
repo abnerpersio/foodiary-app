@@ -32,11 +32,15 @@ export function useGreetingsController() {
       scopes: ["openid", "email", "profile"],
       redirectUri,
       extraParams: { identity_provider: "Google" },
+      prompt: AuthSession.Prompt.SelectAccount,
+      codeChallengeMethod: AuthSession.CodeChallengeMethod.S256,
     },
     discovery,
   );
 
   const error = response?.type === "error" ? response.error : null;
+  const code = response?.type === "success" ? response.params.code : null;
+  console.log("response", response);
 
   useEffect(() => {
     if (response?.type === "error") {
@@ -46,18 +50,24 @@ export function useGreetingsController() {
   }, [error?.message]);
 
   useEffect(() => {
+    console.log("code", code);
     async function setupAuth() {
       if (response?.type !== "success") return;
 
       try {
-        await signInWithGoogle({ code: response.params.code, redirectUri });
-      } catch {
+        await signInWithGoogle({
+          code: code!,
+          redirectUri,
+          codeVerifier: request!.codeVerifier!,
+        });
+      } catch (error) {
+        console.log("error", error);
         Alert.alert("Erro", "Não foi possível entrar com Google.");
       }
     }
 
     setupAuth();
-  }, [response?.type, signInWithGoogle]);
+  }, [response?.type, code, redirectUri, signInWithGoogle]);
 
   return {
     googleAuthReady: !!request,

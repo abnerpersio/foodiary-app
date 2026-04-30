@@ -1,10 +1,17 @@
+import { useAccount } from "@/app/hooks/queries/useAccount";
 import { ProfileService } from "@/app/services/ProfileService";
-import { Step, StepContent, StepFooter, StepHeader, StepSubtitle, StepTitle } from "@/ui/components/Step";
 import { Button } from "@/ui/components/Button";
 import { FormGroup } from "@/ui/components/FormGroup";
 import { Input } from "@/ui/components/Input";
+import {
+  Step,
+  StepContent,
+  StepFooter,
+  StepHeader,
+  StepSubtitle,
+  StepTitle,
+} from "@/ui/components/Step";
 import { formatDateToAPI } from "@/ui/utils/date";
-import { useQueryClient } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { Controller, useFormContext } from "react-hook-form";
 import { Alert } from "react-native";
@@ -12,7 +19,7 @@ import { CompleteProfileSchema } from "../schema";
 
 export function NameStep() {
   const form = useFormContext<CompleteProfileSchema>();
-  const queryClient = useQueryClient();
+  const { handleRefresh } = useAccount();
 
   const handleSubmit = form.handleSubmit(async (values) => {
     const isValid = await form.trigger("name");
@@ -29,12 +36,16 @@ export function NameStep() {
         goal: values.goal,
       });
 
-      await queryClient.refetchQueries({ queryKey: ["account"] });
+      handleRefresh();
     } catch (error) {
       if (isAxiosError(error)) {
-        Alert.alert("Oops!", "Não foi possível salvar seu perfil. Tente novamente.");
+        Alert.alert(
+          "Oops!",
+          "Não foi possível salvar seu perfil. Tente novamente.",
+        );
         return;
       }
+
       Alert.alert("Oops!", "Ocorreu um erro inesperado.");
     }
   });
@@ -43,7 +54,9 @@ export function NameStep() {
     <Step>
       <StepHeader>
         <StepTitle>Como você se chama?</StepTitle>
-        <StepSubtitle>Informe seu nome para personalizar sua experiência</StepSubtitle>
+        <StepSubtitle>
+          Informe seu nome para personalizar sua experiência
+        </StepSubtitle>
       </StepHeader>
 
       <StepContent position="center">
@@ -51,7 +64,11 @@ export function NameStep() {
           control={form.control}
           name="name"
           render={({ field, fieldState }) => (
-            <FormGroup label="Nome" error={fieldState.error?.message} style={{ width: "100%" }}>
+            <FormGroup
+              label="Nome"
+              error={fieldState.error?.message}
+              style={{ width: "100%" }}
+            >
               <Input
                 placeholder="João Silva"
                 autoComplete="name"
