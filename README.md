@@ -35,17 +35,17 @@ _Coming soon._
 
 Built with [Expo](https://expo.dev) and [React Native](https://reactnative.dev), targeting both iOS and Android from a single codebase.
 
-| Area | Technology |
-|---|---|
-| Framework | Expo 54 / React Native 0.81.5 / React 19 |
-| Navigation | React Navigation v7 |
-| Server state | TanStack Query v5 |
-| Forms | React Hook Form + Zod |
-| HTTP | Axios with automatic token refresh |
-| Animations | Reanimated + Moti |
-| Auth | AWS Cognito (email/password + Google OAuth) |
-| Fonts | Host Grotesk |
-| Icons | Lucide React Native |
+| Area         | Technology                                  |
+| ------------ | ------------------------------------------- |
+| Framework    | Expo 54 / React Native 0.81.5 / React 19    |
+| Navigation   | React Navigation v7                         |
+| Server state | TanStack Query v5                           |
+| Forms        | React Hook Form + Zod                       |
+| HTTP         | Axios with automatic token refresh          |
+| Animations   | Reanimated + Moti                           |
+| Auth         | AWS Cognito (email/password + Google OAuth) |
+| Fonts        | Host Grotesk                                |
+| Icons        | Lucide React Native                         |
 
 ---
 
@@ -81,11 +81,11 @@ EXPO_PUBLIC_COGNITO_CLIENT_ID=your-cognito-client-id
 EXPO_PUBLIC_COGNITO_DOMAIN=your-pool.auth.us-east-1.amazoncognito.com
 ```
 
-| Variable | Description |
-|---|---|
-| `EXPO_PUBLIC_API_BASE_URL` | Base URL of the Foodiary backend API |
-| `EXPO_PUBLIC_COGNITO_CLIENT_ID` | AWS Cognito app client ID |
-| `EXPO_PUBLIC_COGNITO_DOMAIN` | AWS Cognito hosted UI domain |
+| Variable                        | Description                          |
+| ------------------------------- | ------------------------------------ |
+| `EXPO_PUBLIC_API_BASE_URL`      | Base URL of the Foodiary backend API |
+| `EXPO_PUBLIC_COGNITO_CLIENT_ID` | AWS Cognito app client ID            |
+| `EXPO_PUBLIC_COGNITO_DOMAIN`    | AWS Cognito hosted UI domain         |
 
 ### 4. Start the development server
 
@@ -126,12 +126,12 @@ src/
 
 ## Available Scripts
 
-| Command | Description |
-|---|---|
-| `npm start` | Start the Metro bundler (development server) |
-| `npm run ios` | Open on iOS simulator |
-| `npm run android` | Open on Android emulator or device |
-| `npm run typecheck` | Run TypeScript type checking |
+| Command             | Description                                  |
+| ------------------- | -------------------------------------------- |
+| `npm start`         | Start the Metro bundler (development server) |
+| `npm run ios`       | Open on iOS simulator                        |
+| `npm run android`   | Open on Android emulator or device           |
+| `npm run typecheck` | Run TypeScript type checking                 |
 
 ---
 
@@ -156,7 +156,3 @@ This project is currently personal/private. If you have access and want to contr
 4. Open a pull request
 
 ---
-
-## License
-
-Private — all rights reserved.
