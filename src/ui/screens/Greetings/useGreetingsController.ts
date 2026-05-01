@@ -8,16 +8,12 @@ import { Alert } from "react-native";
 WebBrowser.maybeCompleteAuthSession();
 
 export function useGreetingsController() {
-  const { signInWithGoogle, isGoogleLoading, isGoogleLastUsed } = useAuth();
-
-  const redirectUri = useMemo(
-    () =>
-      AuthSession.makeRedirectUri({
-        preferLocalhost: true,
-        path: "/auth/callback",
-      }),
-    [],
-  );
+  const {
+    signInWithGoogle,
+    googleRedirectUri,
+    isGoogleLoading,
+    isGoogleLastUsed,
+  } = useAuth();
 
   const discovery = useMemo(
     () => ({
@@ -30,7 +26,7 @@ export function useGreetingsController() {
     {
       clientId: Env.cognitoClientId,
       scopes: ["openid", "email", "profile"],
-      redirectUri,
+      redirectUri: googleRedirectUri,
       extraParams: { identity_provider: "Google" },
       prompt: AuthSession.Prompt.SelectAccount,
       codeChallengeMethod: AuthSession.CodeChallengeMethod.S256,
@@ -55,7 +51,7 @@ export function useGreetingsController() {
       try {
         await signInWithGoogle({
           code: code!,
-          redirectUri,
+          redirectUri: googleRedirectUri,
           codeVerifier: request!.codeVerifier!,
         });
       } catch (error) {
@@ -65,7 +61,7 @@ export function useGreetingsController() {
     }
 
     setupAuth();
-  }, [response?.type, code, redirectUri, signInWithGoogle]);
+  }, [response?.type, code, googleRedirectUri, signInWithGoogle]);
 
   return {
     googleAuthReady: !!request,

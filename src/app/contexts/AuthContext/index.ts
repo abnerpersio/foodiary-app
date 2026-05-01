@@ -6,6 +6,7 @@ type AuthContextValue = {
   signedUp: boolean;
   isGoogleLoading: boolean;
   isGoogleLastUsed: boolean;
+  googleRedirectUri: string;
   needsProfileSetup: boolean;
   signIn: (params: AuthService.SignInParams) => Promise<void>;
   signUp: (params: AuthService.SignUpParams) => Promise<void>;

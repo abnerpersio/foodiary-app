@@ -17,4 +17,8 @@ export class LastSignInManager {
       return null;
     }
   }
+
+  static async clear(): Promise<void> {
+    await AsyncStorage.removeItem(this.KEY);
+  }
 }

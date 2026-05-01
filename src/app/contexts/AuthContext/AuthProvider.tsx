@@ -6,8 +6,9 @@ import { AuthService } from "@/app/services/AuthService";
 import { HttpService } from "@/app/services/HttpService";
 import { useQueryClient } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
+import * as AuthSession from "expo-auth-session";
 import * as SplashScreen from "expo-splash-screen";
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import { AuthContext } from ".";
 
 SplashScreen.preventAutoHideAsync();
@@ -29,6 +30,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
 
   const forceRender = useForceRender();
+
+  const googleRedirectUri = useMemo(
+    () =>
+      AuthSession.makeRedirectUri({
+        preferLocalhost: true,
+        path: "/auth/callback",
+      }),
+    [],
+  );
 
   const signOut = useCallback(async () => {
     HttpService.removeAccessToken();
@@ -157,6 +167,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         needsProfileSetup: isAuthenticated && !account,
         isGoogleLoading,
         isGoogleLastUsed,
+        googleRedirectUri,
         signIn,
         signUp,
         signOut,
