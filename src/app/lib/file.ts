@@ -8,7 +8,12 @@ export const getFileInfo = (fileUri: string) => {
     throw new Error(`${fileUri} file does not exists`);
   }
 
-  const type = filename.endsWith(".jpeg") ? "image/jpeg" : "audio/m4a";
+  const type =
+    filename.endsWith(".jpeg") ||
+    filename.endsWith(".jpg") ||
+    filename.endsWith(".png")
+      ? "image/jpeg"
+      : "audio/m4a";
 
   return {
     size: file.size,

@@ -64,7 +64,12 @@ export namespace MealService {
       foods: {
         name: string;
         quantity: string;
-        calories: number;
+        calories: {
+          total: number;
+          proteins: number;
+          carbohydrates: number;
+          fats: number;
+        };
         proteins: number;
         carbohydrates: number;
         fats: number;
