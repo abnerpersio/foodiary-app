@@ -31,9 +31,9 @@ You can set personal goals (lose weight, maintain, or gain), define your daily t
 
 <table>
   <tr>
-    <td align="center"><video src="docs/video1.mp4" controls width="220"></video></td>
-    <td align="center"><video src="docs/video2.mp4" controls width="220"></video></td>
-    <td align="center"><video src="docs/video3.mp4" controls width="220"></video></td>
+    <td align="center"><video src="https://github.com/user-attachments/assets/164ee238-2e40-4fb7-be38-a3c99bbdc0be" controls width="220"></video></td>
+    <td align="center"><video src="https://github.com/user-attachments/assets/ef31147e-4bf2-40cd-8010-2df8e512c23f" controls width="220"></video></td>
+    <td align="center"><video src="https://github.com/user-attachments/assets/ae5790b5-4565-422d-a3cc-a0186a1191e2" controls width="220"></video></td>
   </tr>
 </table>
 
