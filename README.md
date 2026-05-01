@@ -164,14 +164,3 @@ src/
 6. **Track your day** — the home screen shows your running totals vs. your daily goals
 
 ---
-
-## Contributing
-
-This project is currently personal/private. If you have access and want to contribute:
-
-1. Create a branch from `main`
-2. Make your changes
-3. Run `npm run typecheck` to make sure there are no type errors
-4. Open a pull request
-
----
