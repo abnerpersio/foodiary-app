@@ -25,9 +25,28 @@ You can set personal goals (lose weight, maintain, or gain), define your daily t
 
 ---
 
-## Screenshots
+## Screenshots & Demo
 
-_Coming soon._
+### App in Action
+
+<table>
+  <tr>
+    <td align="center"><video src="docs/video1.mp4" controls width="220"></video></td>
+    <td align="center"><video src="docs/video2.mp4" controls width="220"></video></td>
+    <td align="center"><video src="docs/video3.mp4" controls width="220"></video></td>
+  </tr>
+</table>
+
+### Screenshots
+
+<table>
+  <tr>
+    <td><img src="docs/image1.jpeg" width="200"/></td>
+    <td><img src="docs/image2.jpeg" width="200"/></td>
+    <td><img src="docs/image3.jpeg" width="200"/></td>
+    <td><img src="docs/image4.jpeg" width="200"/></td>
+  </tr>
+</table>
 
 ---
 
